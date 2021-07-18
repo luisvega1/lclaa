@@ -29,3 +29,12 @@
 @import "app/common/inputs";
 @import "app/common/utils";
 @import "app/common/print";
+
+.pages-container{
+    background-color: #4c5eaa;
+    height: 100vh;
+    padding-top: 35px
+}
+.login-shadow{
+    box-shadow: 0px 0px 15px 0px #404040 !important;
+}

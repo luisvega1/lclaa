@@ -1,7 +1,7 @@
 import { CHANGE_THEME } from '../actions/actions';
 
 const initialState = {
-    path: ''
+    path: 'themes/theme-i.css'
 }
 
 const themesReducer = (state = initialState, action) => {

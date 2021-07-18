@@ -2,6 +2,9 @@ import React, { Suspense, lazy } from 'react';
 import { withRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
+/* protectedroute component para rutas protegidas*/
+import { ProtectedRoute } from './auth/protected.route';
+
 /* loader component for Suspense*/
 import PageLoader from './components/Common/PageLoader';
 
@@ -12,14 +15,14 @@ import BasePage from './components/Layout/BasePage';
 /* Used to render a lazy component with react-router */
 const waitFor = Tag => props => <Tag {...props}/>;
 
+const Home = lazy(() => import('./components/home/Home'));
 const SingleView = lazy(() => import('./components/SingleView/SingleView'));
 const SubMenu = lazy(() => import('./components/SubMenu/SubMenu'));
+const Login = lazy(() => import('./pages/Login'));
 
-// List of routes that uses the page layout
-// listed here to Switch between layouts
-// depending on the current pathname
+//Lista de paginas que van fuera del layout wrapper
 const listofPages = [
-    /* See full project for reference */
+    '/login'
 ];
 
 const Routes = ({ location }) => {
@@ -37,11 +40,17 @@ const Routes = ({ location }) => {
         return (
             // Page Layout component wrapper
             <BasePage>
-                <Suspense fallback={<PageLoader/>}>
-                    <Switch location={location}>
-                        {/* See full project for reference */}
-                    </Switch>
-                </Suspense>
+                <TransitionGroup>
+                    <CSSTransition  key={currentKey} timeout={timeout} classNames={animationName} exit={false}>
+                        <div className="pages-container">
+                            <Suspense fallback={<PageLoader/>}>
+                                <Switch location={location}>
+                                    <Route path="/login" component={waitFor(Login)} />
+                                </Switch>
+                            </Suspense>
+                        </div>
+                    </CSSTransition>
+                </TransitionGroup>
             </BasePage>
         )
     }
@@ -55,10 +64,10 @@ const Routes = ({ location }) => {
                     <div>
                         <Suspense fallback={<PageLoader/>}>
                             <Switch location={location}>
-                                <Route path="/singleview" component={waitFor(SingleView)}/>
-                                <Route path="/submenu" component={waitFor(SubMenu)}/>
-
-                                <Redirect to="/singleview"/>
+                                <ProtectedRoute exact path="/" component={waitFor(Home)}/>
+                                <ProtectedRoute path="/singleview" component={waitFor(SingleView)}/>
+                                <ProtectedRoute path="/submenu" component={waitFor(SubMenu)}/>
+                                <ProtectedRoute path="*" component={() => <Redirect to={{pathname: "/"}}/>} />
                             </Switch>
                         </Suspense>
                     </div>
