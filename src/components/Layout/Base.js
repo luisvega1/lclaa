@@ -9,7 +9,7 @@ const Base = props => (
     <div className="wrapper">
         <Header />
 
-        <Sidebar />
+        <Sidebar history={props.history} />
 
         <Offsidebar />
 

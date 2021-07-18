@@ -26,3 +26,8 @@ const requestFunction = async (method, url, body) => {
 export const login = async ({email, password}) => {
     return await requestFunction('post', `${ENDPOINT}sessions` , {email, password});
 }
+
+export const logout = async () => {
+    const session = JSON.parse(sessionStorage.getItem("USERSESSION"));
+    return await requestFunction('delete', `${ENDPOINT}sessions/${session.token}`);
+}

@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, ListGroup, ListGroupItem } from 'reactstrap';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../../store/actions/actions';
+
+import auth from '../../auth/auth';
 
 class Header extends Component {
 
@@ -34,7 +36,14 @@ class Header extends Component {
         // window.dispatchEvent(new Event('resize'));
     }
 
+    handleLogout = async () => {
+        let history = createBrowserHistory({forceRefresh:true});
+        await auth.logout();
+        history.replace("/login")
+    }
+
     render() {
+
         return (
             <header className="topnavbar-wrapper">
                 { /* START Top Navbar */ }
@@ -67,11 +76,10 @@ class Header extends Component {
                     </ul>
                     { /* END Left navbar */ }
                     { /* START Right Navbar */ }
-                    {/* <ul className="navbar-nav flex-row">
+                    <ul className="navbar-nav flex-row">
                         <UncontrolledDropdown nav inNavbar className="dropdown-list">
                             <DropdownToggle nav className="dropdown-toggle-nocaret">
-                                <em className="icon-bell"></em>
-                                <span className="badge badge-danger">11</span>
+                                <em className="fas fa-cog"></em>
                             </DropdownToggle>
                             <DropdownMenu right className="dropdown-menu-right animated flipInX">
                                 <DropdownItem>
@@ -79,53 +87,26 @@ class Header extends Component {
                                        <ListGroupItem action tag="a" href="" onClick={e => e.preventDefault()}>
                                           <div className="media">
                                              <div className="align-self-start mr-2">
-                                                <em className="fab fa-twitter fa-2x text-info"></em>
+                                                <em className="far fa-user-circle fa-1x text-info"></em>
                                              </div>
                                              <div className="media-body">
-                                                <p className="m-0">New followers</p>
-                                                <p className="m-0 text-muted text-sm">1 new follower</p>
+                                                <p className="m-0">Perfil</p>
                                              </div>
                                           </div>
                                        </ListGroupItem>
                                        <ListGroupItem action tag="a" href="" onClick={e => e.preventDefault()}>
-                                          <div className="media">
-                                             <div className="align-self-start mr-2">
-                                                <em className="fa fa-envelope fa-2x text-warning"></em>
-                                             </div>
-                                             <div className="media-body">
-                                                <p className="m-0">New e-mails</p>
-                                                <p className="m-0 text-muted text-sm">You have 10 new emails</p>
-                                             </div>
-                                          </div>
-                                       </ListGroupItem>
-                                       <ListGroupItem action tag="a" href="" onClick={e => e.preventDefault()}>
-                                          <div className="media">
-                                             <div className="align-self-start mr-2">
-                                                <em className="fa fa-tasks fa-2x text-success"></em>
-                                             </div>
-                                             <div className="media-body">
-                                                <p className="m-0">Pending Tasks</p>
-                                                <p className="m-0 text-muted text-sm">11 pending task</p>
-                                             </div>
-                                          </div>
-                                       </ListGroupItem>
-                                       <ListGroupItem action tag="a" href="" onClick={e => e.preventDefault()}>
-                                          <span className="d-flex align-items-center">
-                                             <span className="text-sm">More notifications</span>
-                                             <span className="badge badge-danger ml-auto">14</span>
+                                            <span onClick={this.handleLogout} 
+                                             className="d-flex align-items-center">
+                                             <span className="text-sm">Cerrar sesión</span>
+                                             <span className="badge badge-danger ml-auto"><em className="fas fa-sign-out-alt"></em></span>
                                           </span>
                                        </ListGroupItem>
                                     </ListGroup>
                                 </DropdownItem>
                             </DropdownMenu>
                         </UncontrolledDropdown>
-                        <li className="nav-item">
-                            <a className="nav-link" href="" onClick={this.toggleOffsidebar}>
-                                <em className="icon-notebook"></em>
-                            </a>
-                        </li>
                     </ul>
-                     */}
+                    
                     { /* END Right Navbar */ }
                 </nav>
                 { /* END Top Navbar */ }

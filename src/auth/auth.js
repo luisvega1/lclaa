@@ -1,3 +1,5 @@
+import { logout } from '../services/Services';
+
 class Auth {
     constructor() {
         const session = JSON.parse(sessionStorage.getItem('USERSESSION'));
@@ -10,6 +12,10 @@ class Auth {
     }
 
     logout = async () => {
+        const response = await logout();
+        if(!response.error){
+            sessionStorage.removeItem("USERSESSION");
+        }
         this.authenticated = false;
     }
 
