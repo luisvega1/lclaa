@@ -16,7 +16,7 @@ import BasePage from './components/Layout/BasePage';
 const waitFor = Tag => props => <Tag {...props}/>;
 
 const Home = lazy(() => import('./components/home/Home'));
-const SingleView = lazy(() => import('./components/SingleView/SingleView'));
+const Speakers = lazy(() => import('./components/Speakers/Speakers'));
 const SubMenu = lazy(() => import('./components/SubMenu/SubMenu'));
 const Login = lazy(() => import('./pages/Login'));
 
@@ -65,7 +65,7 @@ const Routes = ({ location }) => {
                         <Suspense fallback={<PageLoader/>}>
                             <Switch location={location}>
                                 <ProtectedRoute exact path="/" component={waitFor(Home)}/>
-                                <ProtectedRoute path="/singleview" component={waitFor(SingleView)}/>
+                                <ProtectedRoute path="/speakers" component={waitFor(Speakers)}/>
                                 <ProtectedRoute path="/submenu" component={waitFor(SubMenu)}/>
                                 <ProtectedRoute path="*" component={() => <Redirect to={{pathname: "/"}}/>} />
                             </Switch>

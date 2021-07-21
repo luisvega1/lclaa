@@ -1,9 +1,19 @@
 import axios from "axios";
 
-const ENDPOINT = "http://192.241.146.9/api/";
+export const ENDPOINT = "http://192.241.146.9/api/";
+export const FILES_ENDPOINT = "http://192.241.146.9";
+
+const sessionToken = JSON.parse(sessionStorage.getItem("USERSESSION")) ? JSON.parse(sessionStorage.getItem("USERSESSION")).token : null;
 
 const requestFunction = async (method, url, body) => {
-    const response = await axios[method](url, body).then( (response) => {
+    console.log(body);
+    const requestOptions = {
+        method: method,
+        url: url,
+        body: body,
+        headers: sessionToken ? { 'token': sessionToken, 'Content-Type': 'application/json' } : { 'Content-Type': 'application/json' }
+    }
+    const response = await axios(requestOptions).then( (response) => {
         return response;
     }).catch( (error) => {
         return error.response;
@@ -30,4 +40,8 @@ export const login = async ({email, password}) => {
 export const logout = async () => {
     const session = JSON.parse(sessionStorage.getItem("USERSESSION"));
     return await requestFunction('delete', `${ENDPOINT}sessions/${session.token}`);
+}
+
+export const newSpeaker = async  (speaker) => {
+    return await requestFunction('post', `${ENDPOINT}speakers`, speaker)
 }

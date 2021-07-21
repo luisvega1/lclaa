@@ -4,10 +4,9 @@ const Menu = [
         translate: 'sidebar.heading.HEADER'
     },
     {
-        name: 'Single View',
-        path: 'singleview',
-        icon : 'icon-grid',
-        translate: 'sidebar.nav.SINGLEVIEW'
+        name: 'Speakers',
+        path: 'speakers',
+        icon : 'fas fa-user-tie'
     },
     {
         name: 'Menu',
