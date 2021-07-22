@@ -1,0 +1,2 @@
+(window.webpackJsonpLCLAA=window.webpackJsonpLCLAA||[]).push([[8],{433:function(n,e,t){"use strict";t.r(e);var a=t(1),o=t.n(a);e.default=function(){return o.a.createElement("h1",null,"Hola")}}}]);
+//# sourceMappingURL=8.11320838.chunk.js.map
