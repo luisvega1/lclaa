@@ -66,9 +66,14 @@ const ImageCropper = ({type, user, imageGetter}) => {
         );
 
         const base64image = canvas.toDataURL('image/png');
+        const base64 = cleanBase64(base64image); 
         setImage(base64image);
-        imageGetter(base64image, type);
+        imageGetter(base64, type);
         toggle();
+    }
+
+    const cleanBase64 = (base64) => {
+        return base64.split(',')[1];
     }
 
     //CIERRA MODAL AL CANCELAR Y RESETEA VALORES

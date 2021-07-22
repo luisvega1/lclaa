@@ -3,24 +3,16 @@ import axios from "axios";
 export const ENDPOINT = "http://192.241.146.9/api/";
 export const FILES_ENDPOINT = "http://192.241.146.9";
 
-const sessionToken = JSON.parse(sessionStorage.getItem("USERSESSION")) ? JSON.parse(sessionStorage.getItem("USERSESSION")).token : null;
+const sessionToken = () => (
+    JSON.parse(sessionStorage.getItem("USERSESSION")) ? JSON.parse(sessionStorage.getItem("USERSESSION")).token : null
+);
 
 const requestFunction = async (method, url, body) => {
-    console.log(body);
-    const requestOptions = {
-        method: method,
-        url: url,
-        body: body,
-        headers: sessionToken ? { 'token': sessionToken, 'Content-Type': 'application/json' } : { 'Content-Type': 'application/json' }
-    }
-    const response = await axios(requestOptions).then( (response) => {
-        return response;
-    }).catch( (error) => {
-        return error.response;
-    });
+    const headers = sessionToken() ? { 'token': sessionToken(), 'Content-Type': 'application/json' } : { 'Content-Type': 'application/json' }
+    const response = await axios[method](url,body, {headers: headers});
     switch (response.status) {
         //RESPONSE CORRECTO
-        case 200:
+        case 201 || 200:
             return {error: false, data: response.data};
         
         //RESPONSE 401 NO AUTORIZADO
