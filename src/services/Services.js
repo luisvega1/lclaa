@@ -11,8 +11,12 @@ const requestFunction = async (method, url, body) => {
     const headers = sessionToken() ? { 'token': sessionToken(), 'Content-Type': 'application/json' } : { 'Content-Type': 'application/json' }
     const response = await axios[method](url,body, {headers: headers});
     switch (response.status) {
+        //RESPONSE CREACION CORRECTA
+        case 201:
+            return {error: false, data: response.data};
+
         //RESPONSE CORRECTO
-        case 201 || 200:
+        case 200:
             return {error: false, data: response.data};
         
         //RESPONSE 401 NO AUTORIZADO
@@ -34,6 +38,15 @@ export const logout = async () => {
     return await requestFunction('delete', `${ENDPOINT}sessions/${session.token}`);
 }
 
+//SPEAKERS
 export const newSpeaker = async  (speaker) => {
     return await requestFunction('post', `${ENDPOINT}speakers`, speaker)
+}
+
+export const getSpeakers = async () => {
+    return await requestFunction('get', `${ENDPOINT}speakers`);
+}
+
+export const deleteSpeaker = async (id) => {
+    return await requestFunction('delete', `${ENDPOINT}speakers/${id}`);
 }

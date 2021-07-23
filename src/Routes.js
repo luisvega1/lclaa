@@ -17,6 +17,7 @@ const waitFor = Tag => props => <Tag {...props}/>;
 
 const Home = lazy(() => import('./components/home/Home'));
 const Speakers = lazy(() => import('./components/Speakers/Speakers'));
+const RegisterSpeakers = lazy(() => import('./components/Speakers/RegisterSpeakers'));
 const SubMenu = lazy(() => import('./components/SubMenu/SubMenu'));
 const Login = lazy(() => import('./pages/Login'));
 
@@ -66,6 +67,7 @@ const Routes = ({ location }) => {
                             <Switch location={location}>
                                 <ProtectedRoute exact path="/" component={waitFor(Home)}/>
                                 <ProtectedRoute path="/speakers" component={waitFor(Speakers)}/>
+                                <ProtectedRoute path="/speakers/new" component={waitFor(RegisterSpeakers)}/>
                                 <ProtectedRoute path="/submenu" component={waitFor(SubMenu)}/>
                                 <ProtectedRoute path="*" component={() => <Redirect to={{pathname: "/"}}/>} />
                             </Switch>
