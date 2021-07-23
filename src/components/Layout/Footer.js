@@ -6,7 +6,7 @@ class Footer extends Component {
         const year = new Date().getFullYear()
         return (
             <footer className="footer-container">
-                <span>&copy; {year} - LCLAA </span>
+                <span>LCLAA &copy; {year} -  All Rights Reserved </span>
             </footer>
         );
     }

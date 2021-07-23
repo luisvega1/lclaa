@@ -88,24 +88,24 @@ const ImageCropper = ({type, user, imageGetter}) => {
                 type === 'avatar' ? (
                 <Row>
                     <Col xl={{size: 6, offset: 3}}  className="d-flex flex-column align-items-center">
-                        <h2>{type === 'avatar' ? 'Imagen del speaker' : 'Banner'}</h2>
+                        <h3>{type === 'avatar' ? 'Avatar' : 'Banner'}</h3>
                         <img src={image} className={type === 'avatar' ? 'img-fluid rounded-circle shadow mb-3' : 'img-fluid rounded shadow mb-3'} width={type === 'avatar' ? 400 : 650} heigth={type === 'avatar' ? 400 : 350} alt="avatar" />
                         <label htmlFor="inputImage" title="Upload image file" className="btn btn-info btn-upload shadow">
                             <Input id="inputImage" name="file" type="file" accept="image/*" className="sr-only" onChange={handleFileChange} />
                             <span title="Import image with Blob URLs" className="docs-tooltip">
-                                Elegir imagen
+                                Select Image
                             </span>
                         </label>
                     </Col>
                 </Row>):(
                 <Row>
                     <Col xl={{size: 6, offset: 3}}  className="d-flex flex-column align-items-center">
-                        <h2>{type === 'avatar' ? 'Imagen del speaker' : 'Banner'}</h2>
+                        <h3>{type === 'avatar' ? 'Avatar' : 'Banner'}</h3>
                         <img src={image} className={type === 'avatar' ? 'img-fluid rounded-circle shadow mb-3' : 'img-fluid rounded shadow mb-3'} width={type === 'avatar' ? 400 : 650} heigth={type === 'avatar' ? 400 : 350} alt="banner" />
                         <label htmlFor="inputBanner" title="Upload image file" className="btn btn-info btn-upload shadow">
                             <Input id="inputBanner" name="file" type="file" accept="image/*" className="sr-only" onChange={handleFileChange} />
                             <span title="Import image with Blob URLs" className="docs-tooltip">
-                                Elegir imagen
+                                Select Image
                             </span>
                         </label>
                     </Col>

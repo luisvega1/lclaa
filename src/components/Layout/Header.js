@@ -90,14 +90,14 @@ class Header extends Component {
                                                 <em className="far fa-user-circle fa-1x text-info"></em>
                                              </div>
                                              <div className="media-body">
-                                                <p className="m-0">Perfil</p>
+                                                <p className="m-0">Profile</p>
                                              </div>
                                           </div>
                                        </ListGroupItem>
                                        <ListGroupItem action tag="a" href="" onClick={e => e.preventDefault()}>
                                             <span onClick={this.handleLogout} 
                                              className="d-flex align-items-center">
-                                             <span className="text-sm">Cerrar sesión</span>
+                                             <span className="text-sm">Close Session</span>
                                              <span className="badge badge-danger ml-auto"><em className="fas fa-sign-out-alt"></em></span>
                                           </span>
                                        </ListGroupItem>

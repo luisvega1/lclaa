@@ -48,8 +48,8 @@ const Speakers = (props) => {
 
     const deleteSpeakeFunction = async ({value}) => {
         Swal({
-            title: "¿Deseas dar de baja al speaker?",
-            text: "Una vez dado de baja, no se podrá recuperar si información.",
+            title: "Do you want to delelte Speaker?",
+            text: "Once deleted, the information cannot be recovered.",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -74,11 +74,11 @@ const Speakers = (props) => {
     const columns = [
         {key: 'avatar', name: 'Avatar', formatter: ImageFormatter, width: 80},
         {key: 'banner', name: 'Banner', formatter: BannerFormatter, width: 120},
-        {key: 'name', name: 'Nombre'},
-        {key: 'description', name: 'Descripción'},
-        {key: 'job', name: 'Puesto'},
-        {key: 'id', name: 'Editar', formatter: editButton, width: 80},
-        {key: 'id', name: 'Eliminar', formatter: deleteButton, width: 80}
+        {key: 'name', name: 'Name'},
+        {key: 'description', name: 'Description'},
+        {key: 'job', name: 'Job'},
+        {key: 'id', name: 'Edit', formatter: editButton, width: 80},
+        {key: 'id', name: 'Delete', formatter: deleteButton, width: 80}
     ];
 
     useEffect( () => {
@@ -97,7 +97,7 @@ const Speakers = (props) => {
                 <div>Speakers</div>
             </div>
             <div className="text-right mb-3">
-                <Button color="primary" className="shadow rounded-pill" onClick={ () => props.history.push('/speakers/new')}> <i class="fas fa-plus"></i> Nuevo speaker</Button>
+                <Button color="primary" className="shadow rounded-pill" onClick={ () => props.history.push('/speakers/new')}> <i class="fas fa-plus"></i> Create Speaker</Button>
             </div>
             <Container fluid className="shadow">
                 <ReactDataGrid

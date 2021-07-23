@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "LCLAA Dashboard",
+  "name": "Simple Dashboard for LCLAA",
   "icons": [
     {
       "src": "favicon.ico",
