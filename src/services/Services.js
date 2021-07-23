@@ -50,3 +50,11 @@ export const getSpeakers = async () => {
 export const deleteSpeaker = async (id) => {
     return await requestFunction('delete', `${ENDPOINT}speakers/${id}`);
 }
+
+export const getSpeaker = async (id) => {
+    return await requestFunction('get', `${ENDPOINT}speakers/${id}`);
+}
+
+export const updateSpeaker = async  (speaker,id) => {
+    return await requestFunction('patch', `${ENDPOINT}speakers/${id}`, speaker)
+}

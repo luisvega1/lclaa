@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import ImageCropper from "../Common/ImageCropper";
 import ContentWrapper from "../Layout/ContentWrapper";
 import FormValidator from "../../store/reducers/FormValidator";
-import { newSpeaker } from "../../services/Services";
-import { ToastContainer, toast } from "react-toastify";
+import { newSpeaker, getSpeaker, updateSpeaker } from "../../services/Services";
+import { toast } from "react-toastify";
 import { withNamespaces } from "react-i18next";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -19,6 +19,8 @@ import {
 import Swal from "sweetalert";
 
 const RegisterSpeaker = (props) => {
+
+  const [editMode, setEditMode] = useState(false);
   const [user, setUser] = useState(null);
   //FORM DEL SPEAKER
   const [newSpeakerForm, setNewSpeakerForm] = useState({
@@ -88,7 +90,8 @@ const RegisterSpeaker = (props) => {
     });
 
     //Validate if is valid make api request
-    await newSpeaker(newSpeakerForm)
+    if(!editMode){
+      await newSpeaker(newSpeakerForm)
       .then(async (response) => {
         //USUARIO CREADO CORRECTAMENTE
         notify("Speaker registrado.");
@@ -99,9 +102,11 @@ const RegisterSpeaker = (props) => {
             job: "",
             banner: "",
             avatar: "",
+            events: []
           },
           errors: {},
         });
+        props.history.goBack();
       })
       .catch((error) => {
         Swal({
@@ -110,6 +115,32 @@ const RegisterSpeaker = (props) => {
           text: error.response.data.message,
         });
       });
+    }else{
+      await updateSpeaker({speaker: newSpeakerForm.speaker}, user.id)
+      .then(() => {
+        //USUARIO MODIFICADO CORRECTAMENTE
+        notify("Speaker modificado.");
+        setNewSpeakerForm({
+          speaker: {
+            name: "",
+            description: "",
+            job: "",
+            banner: "",
+            avatar: "",
+            events: []
+          },
+          errors: {},
+        });
+        props.history.goBack();
+      })
+      .catch((error) => {
+        Swal({
+          title: "¡Alerta!",
+          icon: "warning",
+          text: error.response.data.message,
+        });
+      });
+    }
   };
 
   const notify = (title) => {
@@ -121,19 +152,41 @@ const RegisterSpeaker = (props) => {
 
   //SE EJECUTA AL INICIAR
   useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem("USERSESSION"));
-    setUser(user);
+
+    async function getSpeakerAPI() {
+      await getSpeaker(props.match.params.id).then( (result) => {
+        console.log(result.data);
+        setUser(result.data);
+        setNewSpeakerForm({
+          speaker: {...result.data}
+        });
+      }).catch( (error) => {
+        Swal({
+          title: "¡Alerta!",
+          icon: "warning",
+          text: error.response.data.message,
+        });
+      })
+    }
+
+    if(!props.match.params.id){
+      const user = JSON.parse(sessionStorage.getItem("USERSESSION"));
+      setUser(user);
+    }else{
+      setEditMode(true);
+      getSpeakerAPI();
+    }
   }, []);
 
   return (
     <ContentWrapper>
       <div className="content-heading">
-        <div>Registro de speaker</div>
+        <div>{!editMode ? "Registro de speaker" : "Actualizar información"}</div>
       </div>
       <Row>
         <Col xs={12} className="text-center">
           <Card className="p-3 shadow">
-            <CardHeader className="text-left mb-4">Nuevo Speaker</CardHeader>
+            <CardHeader className="text-left mb-4">{!editMode ? "Nuevo Speaker" : "Modificar Speaker"}</CardHeader>
             <CardBody>
               <form
                 className="form-horizontal"
@@ -233,7 +286,7 @@ const RegisterSpeaker = (props) => {
                 <Row>
                   <Col xl={12} className="d-flex flex-row justify-content-end">
                     <Button type="submit" color="primary" className="shadow">
-                      Guardar
+                      {!editMode ? "Guardar" : "Actualizar"}
                     </Button>
                   </Col>
                 </Row>
@@ -242,8 +295,8 @@ const RegisterSpeaker = (props) => {
           </Card>
         </Col>
       </Row>
-      <ToastContainer />
     </ContentWrapper>
+  
   );
 };
 

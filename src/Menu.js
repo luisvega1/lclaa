@@ -5,7 +5,7 @@ const Menu = [
     },
     {
         name: 'Speakers',
-        path: 'speakers',
+        path: '/speakers',
         icon : 'fas fa-user-tie'
     },
     {

@@ -5,7 +5,6 @@ import { Row,  Col, Input, Container, Modal, ModalBody, ModalFooter, Button } fr
 import 'react-image-crop/dist/ReactCrop.css';
 
 const ImageCropper = ({type, user, imageGetter}) => {
-
     const [modal, setModal] = useState(false);
     const [src, selectFile] = useState(null);
     const [image, setImage] = useState(null);
@@ -37,12 +36,12 @@ const ImageCropper = ({type, user, imageGetter}) => {
 
     //PONER IMAGENES DEFAULT DEL USUARIO (LAS QUE YA TIENE)
     const setDefaultImages = () => {
-        type === 'avatar' ? setImage(`${FILES_ENDPOINT}/images/original/missing.png`) : setImage(`${FILES_ENDPOINT}/images/original/missing.png`);
+        type === 'avatar' ? setImage(`${FILES_ENDPOINT}${user.avatar}`) : setImage(`${FILES_ENDPOINT}${user.banner ? user.banner : '/images/original/missing.png'}`);
     }
 
     useEffect( () =>{
-        setDefaultImages();
-    }, []);
+        user && setDefaultImages();
+    }, [user]);
 
     //OBTIENE LA IMAGEN YA RECORTADA
     const getCroppedImg = () => {
