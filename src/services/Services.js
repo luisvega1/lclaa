@@ -79,3 +79,24 @@ export const getAdministrator = async (id) => {
 export const updateAdministrator = async  (admin,id) => {
     return await requestFunction('put', `${ENDPOINT}admins/${id}`, admin)
 }
+
+//SPONSORS
+export const newSponsor = async  (sponsor) => {
+    return await requestFunction('post', `${ENDPOINT}sponsors`, sponsor)
+}
+
+export const getSponsors = async () => {
+    return await requestFunction('get', `${ENDPOINT}sponsors`);
+}
+
+export const deleteSponsor = async (id) => {
+    return await requestFunction('delete', `${ENDPOINT}sponsors/${id}`);
+}
+
+export const getSponsor = async (id) => {
+    return await requestFunction('get', `${ENDPOINT}sponsors/${id}`);
+}
+
+export const updateSponsor = async  (sponsor,id) => {
+    return await requestFunction('put', `${ENDPOINT}sponsors/${id}`, sponsor)
+}

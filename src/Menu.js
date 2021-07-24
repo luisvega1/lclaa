@@ -30,7 +30,7 @@ const Menu = [
     },
     {
         name: 'Sponsors',
-        path: '/speakers',
+        path: '/sponsors',
         icon : 'fas fa-building'
     },
     {

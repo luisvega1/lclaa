@@ -26,23 +26,23 @@ const Administrators = (props) => {
 
     const editButton = props => (
         <div className="text-center py-2">
-            <Button color="warning" onClick={() => editSpeaker(props)}> <i className="far fa-edit"></i> </Button>
+            <Button color="warning" onClick={() => editAdministrator(props)}> <i className="far fa-edit"></i> </Button>
         </div>
     )
 
     const deleteButton = props => (
         <div className="text-center py-2">
-            <Button color="danger" onClick={() => deleteSpeakeFunction(props)}> <i class="far fa-trash-alt"></i> </Button>
+            <Button color="danger" onClick={() => deleteAdministratorFunction(props)}> <i class="far fa-trash-alt"></i> </Button>
         </div>
     )
 
-    const editSpeaker = ({value}) => {
+    const editAdministrator = ({value}) => {
         props.history.push(`/administrators/${value}`)
     }
 
-    const deleteSpeakeFunction = async ({value}) => {
+    const deleteAdministratorFunction = async ({value}) => {
         Swal({
-            title: "Do you want to delelte this administrator?",
+            title: "Do you want to delete this administrator?",
             text: "Once deleted, the information cannot be recovered.",
             icon: "warning",
             buttons: true,
@@ -51,8 +51,8 @@ const Administrators = (props) => {
           .then(async (willDelete) => {
             if (willDelete) {
                 await deleteAdministrator(value).then( () => {
-                    let speakers = [...data];
-                    setData(speakers.filter( (speaker) => speaker.id !== value));
+                    let administrators = [...data];
+                    setData(administrators.filter( (administrator) => administrator.id !== value));
                     notify("Administrator deleted.");
                 }).catch( (error) => {
                     Swal(error.response.data.message, {
