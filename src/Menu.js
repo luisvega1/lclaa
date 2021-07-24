@@ -45,18 +45,10 @@ const Menu = [
     },
     {
         name: 'Administrator',
-        path: '/speakers',
-        icon : 'fas fa-user-shield'
-    },
-    {
-        name: 'Menu',
-        icon: 'icon-speedometer',
-        translate: 'sidebar.nav.MENU',
-        label: { value: 1, color: 'info' },
+        icon : 'fas fa-user-shield',
         submenu: [{
-            name: 'Submenu',
-            translate: 'sidebar.nav.SUBMENU',
-            path: 'submenu'
+            name: 'Administrator users',
+            path: '/administrators'
         }]
     }
 ];

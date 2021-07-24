@@ -58,3 +58,24 @@ export const getSpeaker = async (id) => {
 export const updateSpeaker = async  (speaker,id) => {
     return await requestFunction('patch', `${ENDPOINT}speakers/${id}`, speaker)
 }
+
+//ADMINISTRATORS
+export const newAdministrator = async  (admin) => {
+    return await requestFunction('post', `${ENDPOINT}admins`, admin)
+}
+
+export const getAdministrators = async () => {
+    return await requestFunction('get', `${ENDPOINT}admins`);
+}
+
+export const deleteAdministrator = async (id) => {
+    return await requestFunction('delete', `${ENDPOINT}admins/${id}`);
+}
+
+export const getAdministrator = async (id) => {
+    return await requestFunction('get', `${ENDPOINT}admins/${id}`);
+}
+
+export const updateAdministrator = async  (admin,id) => {
+    return await requestFunction('put', `${ENDPOINT}admins/${id}`, admin)
+}
