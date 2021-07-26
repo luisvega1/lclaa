@@ -14,18 +14,27 @@ const Menu = [
         icon : 'fas fa-chalkboard-teacher'
     },
     {
-        name: 'Event Files',
-        path: '/speakers',
-        icon : 'fas fa-folder-open'
+        name: 'Events',
+        icon : 'fas fa-calendar-alt',
+        submenu: [
+            {
+                name: 'Events',
+                path: '/events'
+            },
+            {
+                name: 'Event files',
+                path: '/event_files'
+            },
+        ]
     },
     {
         name: 'Expositions',
         path: '/expositions',
-        icon : 'fas fa-calendar-alt'
+        icon : 'fas fa-chalkboard-teacher'
     },
     {
         name: 'Inscriptions',
-        path: '/speakers',
+        path: '/inscriptions',
         icon : 'fas fa-user-tie'
     },
     {
@@ -35,12 +44,12 @@ const Menu = [
     },
     {
         name: 'Clients',
-        path: '/speakers',
+        path: '/clients',
         icon : 'fas fa-user-friends'
     },
     {
         name: 'Notifications',
-        path: '/speakers',
+        path: '/notifications',
         icon : 'fas fa-comments'
     },
     {

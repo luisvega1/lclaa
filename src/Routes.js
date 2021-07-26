@@ -26,6 +26,8 @@ const Sponsors = lazy(() => import('./components/Sponsors/Sponsors'));
 const SponsorsForm = lazy(() => import('./components/Sponsors/RegisterSponsors'));
 const Expositions = lazy(() => import('./components/Expositions/Expositions'));
 const ExpositionsForm = lazy(() => import('./components/Expositions/ExpositionsForm'));
+const Events = lazy(() => import('./components/Events/Events'));
+const EventsForm = lazy(() => import('./components/Events/EventsForm'));
 const Login = lazy(() => import('./pages/Login'));
 
 //Lista de paginas que van fuera del layout wrapper
@@ -85,6 +87,9 @@ const Routes = ({ location }) => {
                                 <ProtectedRoute exact path="/expositions" component={waitFor(Expositions)}/>
                                 <ProtectedRoute exact path="/expositions/new" component={waitFor(ExpositionsForm)}/>
                                 <ProtectedRoute exact path="/expositions/:id" component={waitFor(ExpositionsForm)}/>
+                                <ProtectedRoute exact path="/events" component={waitFor(Events)}/>
+                                <ProtectedRoute exact path="/events/new" component={waitFor(EventsForm)}/>
+                                <ProtectedRoute exact path="/events/:id" component={waitFor(EventsForm)}/>
                                 <ProtectedRoute path="*" component={() => <Redirect to={{pathname: "/"}}/>} />
                             </Switch>
                         </Suspense>
