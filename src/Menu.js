@@ -23,7 +23,7 @@ const Menu = [
             },
             {
                 name: 'Event files',
-                path: '/event_files'
+                path: '/files'
             },
         ]
     },

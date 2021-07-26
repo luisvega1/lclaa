@@ -142,3 +142,24 @@ export const getExposition = async (id) => {
 export const updateExposition = async  (exposition,id) => {
     return await requestFunction('put', `${ENDPOINT}expositions/${id}`, exposition)
 }
+
+//EVENT FILES
+export const newFile = async  (file) => {
+    return await requestFunction('post', `${ENDPOINT}event_files`, file)
+}
+
+export const getFiles = async () => {
+    return await requestFunction('get', `${ENDPOINT}event_files`);
+}
+
+export const deleteFile = async (id) => {
+    return await requestFunction('delete', `${ENDPOINT}event_files/${id}`);
+}
+
+export const getFile = async (id) => {
+    return await requestFunction('get', `${ENDPOINT}event_files/${id}`);
+}
+
+export const updateFile = async  (file,id) => {
+    return await requestFunction('put', `${ENDPOINT}event_files/${id}`, file)
+}
