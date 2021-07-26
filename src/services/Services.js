@@ -4,7 +4,7 @@ export const ENDPOINT = "http://192.241.146.9/api/";
 export const FILES_ENDPOINT = "http://192.241.146.9";
 
 const sessionToken = () => (
-    JSON.parse(sessionStorage.getItem("USERSESSION")) ? JSON.parse(sessionStorage.getItem("USERSESSION")).token : null
+    JSON.parse(sessionStorage.getItem("USERSESSION")) ? JSON.parse(sessionStorage.getItem("USERSESSION")).token : false
 );
 
 const requestFunction = async (method, url, body) => {
@@ -99,4 +99,46 @@ export const getSponsor = async (id) => {
 
 export const updateSponsor = async  (sponsor,id) => {
     return await requestFunction('put', `${ENDPOINT}sponsors/${id}`, sponsor)
+}
+
+//EVENTS
+export const newEvent = async  (event) => {
+    return await requestFunction('post', `${ENDPOINT}events`, event)
+}
+
+export const getEvents = async () => {
+    return await requestFunction('get', `${ENDPOINT}events`);
+}
+
+export const deleteEvent = async (id) => {
+    return await requestFunction('delete', `${ENDPOINT}events/${id}`);
+}
+
+export const getEvent = async (id) => {
+    return await requestFunction('get', `${ENDPOINT}events/${id}`);
+}
+
+export const updateEvent = async  (event,id) => {
+    return await requestFunction('put', `${ENDPOINT}events/${id}`, event)
+}
+
+//EXPOSITIONS
+export const newExposition = async  (exposition) => {
+    return await requestFunction('post', `${ENDPOINT}expositions`, exposition)
+}
+
+export const getExpositions = async () => {
+    return await requestFunction('get', `${ENDPOINT}expositions`);
+}
+
+export const deleteExposition = async (id) => {
+    return await requestFunction('delete', `${ENDPOINT}expositions/${id}`);
+}
+
+export const getExposition = async (id) => {
+    return await requestFunction('get', `${ENDPOINT}expositions/${id}`);
+}
+
+export const updateExposition = async  (exposition,id) => {
+    return await requestFunction('put', `${ENDPOINT}expositions/${id}`, exposition)
 }

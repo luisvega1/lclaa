@@ -20,7 +20,7 @@ const Menu = [
     },
     {
         name: 'Expositions',
-        path: '/speakers',
+        path: '/expositions',
         icon : 'fas fa-calendar-alt'
     },
     {
