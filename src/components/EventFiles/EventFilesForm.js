@@ -170,7 +170,6 @@ const EventFilesForm = (props) => {
     async function getFileAPI() {
       await getFile(props.match.params.id)
         .then((result) => {
-          console.log(result);
           setFile(result.data);
           setNewFileForm({
             event_file: { ...result.data },

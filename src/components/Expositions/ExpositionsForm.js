@@ -28,7 +28,7 @@ import Swal from "sweetalert";
 
 const ExpositionsForm = (props) => {
   const [editMode, setEditMode] = useState(false);
-  const [user, setUser] = useState(null);
+  const [exposition, setExposition] = useState(null);
   //FORM DEL EXPOSITION
   const [newExpositionForm, setNewExpositionForm] = useState({
     exposition: {
@@ -91,7 +91,7 @@ const ExpositionsForm = (props) => {
 
     const form = e.target;
     const inputs = [...form.elements].filter((i) =>
-      ["INPUT", "SELECT"].includes(i.nodeName)
+      i.name ? ["INPUT", "SELECT"].includes(i.nodeName) : null
     );
     const { errors } = FormValidator.bulkValidate(inputs);
 
@@ -109,13 +109,16 @@ const ExpositionsForm = (props) => {
           //USUARIO CREADO CORRECTAMENTE
           notify("Exposition created.");
           setNewExpositionForm({
-            speaker: {
+            exposition: {
+              event_id: "",
               name: "",
               description: "",
-              job: "",
+              date: "",
+              start_time: "",
+              end_time: "",
+              speaker_ids: [],
+              image: "",
               banner: "",
-              avatar: "",
-              events: [],
             },
             errors: {},
           });
@@ -131,7 +134,7 @@ const ExpositionsForm = (props) => {
     } else {
       await updateExposition(
         { exposition: newExpositionForm.exposition },
-        user.id
+        exposition.id
       )
         .then(() => {
           //USUARIO MODIFICADO CORRECTAMENTE
@@ -169,25 +172,26 @@ const ExpositionsForm = (props) => {
     });
   };
 
-  const formatDataForSelect = (object) => {
-    object["value"] = object["id"];
-    object["label"] = object["name"];
-    delete object["id"];
-    delete object["name"];
-    return object;
-  };
+  const formatDataForSelectEdit = (array) => {
+    array.forEach( (element) => {
+      element.value = element.id;
+      element.label = element.name;
+    });
+    return array;
+  }
 
   //SE EJECUTA AL INICIAR
   useEffect(() => {
     async function getExpositionAPI() {
       await getExposition(props.match.params.id)
         .then((result) => {
-          setUser(result.data);
+          setExposition(result.data);
           setNewExpositionForm({
-            exposition: { ...result.data },
+            exposition: { ...result.data, speakers: formatDataForSelectEdit(result.data.speakers) },
           });
         })
         .catch((error) => {
+          console.log(error);
           Swal({
             title: "Alert!",
             icon: "warning",
@@ -198,26 +202,17 @@ const ExpositionsForm = (props) => {
 
     async function getSpeakersAPI() {
       await getSpeakers().then((result) => {
-        result.data.forEach((speaker) => {
-          speaker = formatDataForSelect(speaker);
-        });
-        setSpeakers(result.data);
+        setSpeakers(formatDataForSelectEdit(result.data));
       });
     }
 
     async function getEventsAPI() {
       await getEvents().then((result) => {
-        result.data.forEach((event) => {
-          event = formatDataForSelect(event);
-        });
-        setEvents(result.data);
+        setEvents(formatDataForSelectEdit(result.data));
       });
     }
 
-    if (!props.match.params.id) {
-      const user = JSON.parse(sessionStorage.getItem("USERSESSION"));
-      setUser(user);
-    } else {
+    if (props.match.params.id) {
       setEditMode(true);
       getExpositionAPI();
     }
@@ -225,19 +220,34 @@ const ExpositionsForm = (props) => {
     getEventsAPI();
   }, []);
 
-  const handleOnChangeSelect = (value, { action, removedValue }) => {
-    let newSpeakerIds = newExpositionForm.exposition.speaker_ids;
+  const handleOnChangeSpeakersSelect = (value, { action, removedValue }) => {
+    let newSpeakersId = newExpositionForm.exposition.speaker_ids;
     switch (action) {
       case "remove-value":
         //CUANDO BORRAS ELEMENTO
-        const elementIndex = newSpeakerIds.lastIndexOf(removedValue.value);
-        newSpeakerIds.splice(elementIndex, 1);
-        setNewExpositionForm({
-          exposition: {
-            ...newExpositionForm.exposition,
-            speaker_ids: newSpeakerIds,
-          },
-        });
+        if(!editMode){
+          const elementIndex = newSpeakersId.lastIndexOf(removedValue.value);
+          newSpeakersId.splice(elementIndex, 1);
+          setNewExpositionForm({
+            exposition: {
+              ...newExpositionForm.exposition,
+              speaker_ids: newSpeakersId,
+            },
+          });
+        }else{
+          let speakersArray = [...newExpositionForm.exposition.speakers];
+          const elementIndex = newSpeakersId.lastIndexOf(removedValue.value);
+
+          speakersArray.splice(elementIndex, 1);
+          newSpeakersId.splice(elementIndex, 1);
+          setNewExpositionForm({
+            exposition: {
+              ...newExpositionForm.exposition,
+              speaker_ids: newSpeakersId,
+              speakers: speakersArray
+            },
+          });
+        }
         break;
       case "clear":
         setNewExpositionForm({
@@ -248,50 +258,74 @@ const ExpositionsForm = (props) => {
         });
         break;
       default:
-        newSpeakerIds.push(value[value.length - 1].value);
-        setNewExpositionForm({
-          exposition: {
-            ...newExpositionForm.exposition,
-            speaker_ids: newSpeakerIds,
-          },
-        });
+        if(!editMode){
+          newSpeakersId.push(value[value.length - 1].value);
+          setNewExpositionForm({
+            exposition: {
+              ...newExpositionForm.exposition,
+              speaker_ids: newSpeakersId,
+            },
+          });
+        }else{
+          newSpeakersId.push(value[value.length - 1].value);
+          let speakersArray = [...newExpositionForm.exposition.speakers];
+          speakersArray.push(value[value.length - 1]);
+          setNewExpositionForm({
+            exposition: {
+              ...newExpositionForm.exposition,
+              speaker_ids: newSpeakersId,
+              speakers: speakersArray
+            },
+          });
+        }
         break;
     }
   };
 
-  const handleOnChangeEventsSelect = (value, { action, removedValue }) => {
-    // let newSpeakerIds = newExpositionForm.exposition.speaker_ids;
+  const handleOnChangeEventSelect = (value, { action, removedValue }) => {
     switch (action) {
       case "remove-value":
-        console.log("CTM");
         //CUANDO BORRAS ELEMENTO
-        // const elementIndex = newSpeakerIds.lastIndexOf(removedValue.value);
-        // newSpeakerIds.splice(elementIndex, 1);
-        // setNewExpositionForm({
-        //   exposition: {
-        //     ...newExpositionForm.exposition,
-        //     speaker_ids: newSpeakerIds,
-        //   },
-        // });
+        if(!editMode){
+          setNewExpositionForm({
+            exposition: {
+              ...newExpositionForm.exposition,
+              event_id: value.value,
+            },
+          });
+        }else{
+          setNewExpositionForm({
+            exposition: {
+              ...newExpositionForm.exposition,
+              event_id: value.value,
+            },
+          });
+        }
         break;
       case "clear":
-        console.log("HOLA MECO");
-        // setNewExpositionForm({
-        //   exposition: {
-        //     ...newExpositionForm.exposition,
-        //     speaker_ids: [],
-        //   },
-        // });
+        setNewExpositionForm({
+          exposition: {
+            ...newExpositionForm.exposition,
+            event_id: "",
+          },
+        });
         break;
       default:
-        console.log("HOLA");
-        // newSpeakerIds.push(value[value.length - 1].value);
-        // setNewExpositionForm({
-        //   exposition: {
-        //     ...newExpositionForm.exposition,
-        //     speaker_ids: newSpeakerIds,
-        //   },
-        // });
+        if(!editMode){
+          setNewExpositionForm({
+            exposition: {
+              ...newExpositionForm.exposition,
+              event_id: value.value,
+            },
+          });
+        }else{
+          setNewExpositionForm({
+            exposition: {
+              ...newExpositionForm.exposition,
+              event_id: value.value,
+            },
+          });
+        }
         break;
     }
   };
@@ -317,23 +351,6 @@ const ExpositionsForm = (props) => {
               >
                 <Row>
                   <Col xl={6}>
-                  <FormGroup row>
-                      <label className="col-xl-4 col-form-label">
-                        Event
-                      </label>
-                      <div className="col-xl-8">
-                        <Select
-                          onChange={handleOnChangeEventsSelect}
-                          name="event_id"
-                          options={events}
-                        />
-                        {hasErrors("exposition", "event_id", "required") && (
-                          <span className="invalid-feedback">
-                            Required field
-                          </span>
-                        )}
-                      </div>
-                    </FormGroup>
                     <FormGroup row>
                       <label className="col-xl-4 col-form-label">Name</label>
                       <div className="col-xl-8">
@@ -385,7 +402,7 @@ const ExpositionsForm = (props) => {
                           name="date"
                           invalid={hasErrors(
                             "exposition",
-                            "description",
+                            "date",
                             "required"
                           )}
                           data-validate='["required"]'
@@ -449,20 +466,41 @@ const ExpositionsForm = (props) => {
                     </FormGroup>
                     <FormGroup row>
                       <label className="col-xl-4 col-form-label">
+                        Event
+                      </label>
+                      <div className="col-xl-8">
+                        <Select
+                          onChange={handleOnChangeEventSelect}
+                          name="event_id"
+                          options={events}
+                          invalid={hasErrors(
+                            "exposition",
+                            "event_id",
+                            "required"
+                          )}
+                          data-validate='["event_id"]'
+                          value={events.find( (event) => event === !editMode ? newExpositionForm.exposition.event_id : exposition ? exposition.event_id : "")}
+                        />
+                      </div>
+                    </FormGroup>
+                    <FormGroup row>
+                      <label className="col-xl-4 col-form-label">
                         Speakers
                       </label>
                       <div className="col-xl-8">
                         <Select
-                          onChange={handleOnChangeSelect}
+                          onChange={handleOnChangeSpeakersSelect}
                           name="speaker_ids"
                           isMulti
                           options={speakers}
+                          invalid={hasErrors(
+                            "event",
+                            "speaker_ids",
+                            "required"
+                          )}
+                          data-validate='["required"]'
+                          value={newExpositionForm.exposition.speakers}
                         />
-                        {hasErrors("exposition", "speaker_ids", "required") && (
-                          <span className="invalid-feedback">
-                            Required field
-                          </span>
-                        )}
                       </div>
                     </FormGroup>
                   </Col>
@@ -472,8 +510,8 @@ const ExpositionsForm = (props) => {
                         <ImageCropper
                           imageGetter={getImage}
                           id="av"
-                          type="avatar"
-                          user={user}
+                          type="image"
+                          user={exposition}
                         />
                       </Col>
                       <Col xl={6}>
@@ -481,7 +519,7 @@ const ExpositionsForm = (props) => {
                           imageGetter={getImage}
                           id="ban"
                           type="banner"
-                          user={user}
+                          user={exposition}
                         />
                       </Col>
                     </Row>

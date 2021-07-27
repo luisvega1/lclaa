@@ -20,7 +20,7 @@ const Expositions = (props) => {
 
     const ImageFormatter = props => (
         <div className="text-center py-2">
-            <img src={`${FILES_ENDPOINT}${props.value}`} className="img-fluid thumb32" alt="avatar"/>
+            <img src={`${FILES_ENDPOINT}${props.value}`} className="img-fluid thumb32" alt="image"/>
         </div>
     );
 
@@ -29,6 +29,15 @@ const Expositions = (props) => {
             <img src={`${FILES_ENDPOINT}${props.value}`} className="img-fluid" width="50" alt="banner"/>
         </div>
     );
+
+    const SpeakersFormatter = props => {
+        let names = [];
+        props.value.forEach(element => {
+            names.push(element.name);
+            names.push(", ");
+        });
+        return <span>{"".concat(...names)}</span>
+    };
 
     const editButton = props => (
         <div className="text-center py-2">
@@ -72,14 +81,14 @@ const Expositions = (props) => {
     const rowGetter = (i) => data[i]
 
     const columns = [
-        {key: 'avatar', name: 'Avatar', formatter: ImageFormatter, width: 80},
+        {key: 'image', name: 'Image', formatter: ImageFormatter, width: 80},
         {key: 'banner', name: 'Banner', formatter: BannerFormatter, width: 120},
         {key: 'name', name: 'Name'},
         {key: 'description', name: 'Description'},
         {key: 'date', name: 'Job'},
         {key: 'start_time', name: 'Start time', width: 80},
         {key: 'end_time', name: 'End time', width: 80},
-        {key: 'speaker_ids', name: 'Speakers'},
+        {key: 'speakers', name: 'Speakers', formatter: SpeakersFormatter},
         {key: 'id', name: 'Edit', formatter: editButton, width: 80},
         {key: 'id', name: 'Delete', formatter: deleteButton, width: 80}
     ];
