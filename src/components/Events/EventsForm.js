@@ -184,6 +184,14 @@ const EventsForm = (props) => {
     return object;
   };
 
+  const formatDataForSelectEdit = (array) => {
+    array.forEach( (element) => {
+      element.value = element.id;
+      element.label = element.name;
+    });
+    return array;
+  }
+
   //SE EJECUTA AL INICIAR
   useEffect(() => {
     async function getEventAPI() {
@@ -192,6 +200,7 @@ const EventsForm = (props) => {
           setEvent(result.data);
           setNewEventForm({
             event: { ...result.data },
+            sponsors: formatDataForSelectEdit(result.data.sponsors)
           });
         })
         .catch((error) => {
@@ -268,14 +277,29 @@ const EventsForm = (props) => {
     switch (action) {
       case "remove-value":
         //CUANDO BORRAS ELEMENTO
-        const elementIndex = newSponsorsId.lastIndexOf(removedValue.value);
-        newSponsorsId.splice(elementIndex, 1);
-        setNewEventForm({
-          event: {
-            ...newEventForm.event,
-            sponsor_ids: newSponsorsId,
-          },
-        });
+        if(!editMode){
+          const elementIndex = newSponsorsId.lastIndexOf(removedValue.value);
+          newSponsorsId.splice(elementIndex, 1);
+          setNewEventForm({
+            event: {
+              ...newEventForm.event,
+              sponsor_ids: newSponsorsId,
+            },
+          });
+        }else{
+          let sponsorsArray = [...newEventForm.event.sponsors];
+          const elementIndex = newSponsorsId.lastIndexOf(removedValue.value);
+
+          sponsorsArray.splice(elementIndex, 1);
+          newSponsorsId.splice(elementIndex, 1);
+          setNewEventForm({
+            event: {
+              ...newEventForm.event,
+              sponsor_ids: newSponsorsId,
+              sponsors: sponsorsArray
+            },
+          });
+        }
         break;
       case "clear":
         setNewEventForm({
@@ -286,14 +310,26 @@ const EventsForm = (props) => {
         });
         break;
       default:
-        console.log("HOLA");
-        newSponsorsId.push(value[value.length - 1].value);
-        setNewEventForm({
-          event: {
-            ...newEventForm.event,
-            sponsor_ids: newSponsorsId,
-          },
-        });
+        if(!editMode){
+          newSponsorsId.push(value[value.length - 1].value);
+          setNewEventForm({
+            event: {
+              ...newEventForm.event,
+              sponsor_ids: newSponsorsId,
+            },
+          });
+        }else{
+          newSponsorsId.push(value[value.length - 1].value);
+          let sponsorsArray = [...newEventForm.event.sponsors];
+          sponsorsArray.push(value[value.length - 1]);
+          setNewEventForm({
+            event: {
+              ...newEventForm.event,
+              sponsor_ids: newSponsorsId,
+              sponsors: sponsorsArray
+            },
+          });
+        }
         break;
     }
   };
@@ -442,6 +478,7 @@ const EventsForm = (props) => {
                             "required"
                           )}
                           data-validate='["required"]'
+                          value={newEventForm.event.sponsors}
                         />
                       </div>
                     </FormGroup>

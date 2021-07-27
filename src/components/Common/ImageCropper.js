@@ -36,7 +36,7 @@ const ImageCropper = ({type, user, imageGetter}) => {
 
     //PONER IMAGENES DEFAULT DEL USUARIO (LAS QUE YA TIENE)
     const setDefaultImages = () => {
-        type === 'avatar' ? setImage(`${FILES_ENDPOINT}${user.avatar}`) : setImage(`${FILES_ENDPOINT}${user.banner ? user.banner : '/images/original/missing.png'}`);
+        type === 'avatar' ? setImage(`${FILES_ENDPOINT}${user.avatar}`) : type === 'banner' ? setImage(`${FILES_ENDPOINT}${user.banner}`) : setImage(`${FILES_ENDPOINT}${user.image}`);
     }
 
     useEffect( () =>{

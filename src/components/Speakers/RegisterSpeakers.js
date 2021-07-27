@@ -101,8 +101,7 @@ const RegisterSpeaker = (props) => {
             description: "",
             job: "",
             banner: "",
-            avatar: "",
-            events: []
+            avatar: ""
           },
           errors: {},
         });
@@ -116,9 +115,9 @@ const RegisterSpeaker = (props) => {
         });
       });
     }else{
-      await updateSpeaker({speaker: newSpeakerForm.speaker}, user.id)
-      .then(() => {
+      try {
         //USUARIO MODIFICADO CORRECTAMENTE
+        await updateSpeaker({speaker: newSpeakerForm.speaker}, user.id);
         notify("Modified speaker.");
         setNewSpeakerForm({
           speaker: {
@@ -126,20 +125,19 @@ const RegisterSpeaker = (props) => {
             description: "",
             job: "",
             banner: "",
-            avatar: "",
-            events: []
+            avatar: ""
           },
           errors: {},
         });
         props.history.goBack();
-      })
-      .catch((error) => {
-        Swal({
-          title: "Alert!",
-          icon: "warning",
-          text: error.response.data.message,
-        });
-      });
+      } catch (error) {
+        console.log(error);
+        // Swal({
+        //   title: "Alert!",
+        //   icon: "warning",
+        //   text: error.response.data.message,
+        // });
+      }
     }
   };
 

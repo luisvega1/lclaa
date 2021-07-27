@@ -30,6 +30,15 @@ const Events = (props) => {
         </div>
     );
 
+    const SponsorsFormatter = props => {
+        let names = [];
+        props.value.forEach(element => {
+            names.push(element.name);
+            names.push(", ");
+        });
+        return <span>{"".concat(...names)}</span>
+    };
+
     const editButton = props => (
         <div className="text-center py-2">
             <Button color="warning" onClick={() => editEvent(props)}> <i className="far fa-edit"></i> </Button>
@@ -72,14 +81,14 @@ const Events = (props) => {
     const rowGetter = (i) => data[i]
 
     const columns = [
-        {key: 'avatar', name: 'Avatar', formatter: ImageFormatter, width: 80},
+        {key: 'image', name: 'Image', formatter: ImageFormatter, width: 80},
         {key: 'banner', name: 'Banner', formatter: BannerFormatter, width: 120},
         {key: 'name', name: 'Name'},
         {key: 'date', name: 'Date'},
         {key: 'address', name: 'Address'},
         {key: 'description', name: 'Description'},
         {key: 'speaker_ids', name: 'Speakers'},
-        {key: 'sponsor_ids', name: 'Sponsors'},
+        {key: 'sponsors', name: 'Sponsors', formatter: SponsorsFormatter},
         {key: 'id', name: 'Edit', formatter: editButton, width: 80},
         {key: 'id', name: 'Delete', formatter: deleteButton, width: 80}
     ];

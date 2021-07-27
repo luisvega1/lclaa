@@ -9,25 +9,40 @@ const sessionToken = () => (
 
 const requestFunction = async (method, url, body) => {
     const headers = sessionToken() ? { 'token': sessionToken(), 'Content-Type': 'application/json' } : { 'Content-Type': 'application/json' }
-    const response = await axios[method](url,body, {headers: headers});
-    switch (response.status) {
-        //RESPONSE CREACION CORRECTA
-        case 201:
-            return {error: false, data: response.data};
-
-        //RESPONSE CORRECTO
-        case 200:
-            return {error: false, data: response.data};
-        
-        //RESPONSE 401 NO AUTORIZADO
-        case 401:
-            return {error: true, data: response.data};
-
-        //OTRO CASO POR DEFINIR
-        default:
-            break;
+    try {
+        const response = await fetch(url,{
+            method: method,
+            body: JSON.stringify(body),
+            headers: headers
+        });
+        const result = await response.json();
+        return { error: false, data: result};
+    } catch (error) {
+        return {error: true, data: error}
     }
 };
+
+// const requestFunction = async (method, url, body) => {
+//     const headers = sessionToken() ? { 'token': sessionToken(), 'Content-Type': 'application/json' } : { 'Content-Type': 'application/json' }
+//     const response = await axios[method](url,body, {headers: headers});
+//     switch (response.status) {
+//         //RESPONSE CREACION CORRECTA
+//         case 201:
+//             return {error: false, data: response.data};
+
+//         //RESPONSE CORRECTO
+//         case 200:
+//             return {error: false, data: response.data};
+        
+//         //RESPONSE 401 NO AUTORIZADO
+//         case 401:
+//             return {error: true, data: response.data};
+
+//         //OTRO CASO POR DEFINIR
+//         default:
+//             break;
+//     }
+// };
 
 export const login = async ({email, password}) => {
     return await requestFunction('post', `${ENDPOINT}sessions` , {email, password});
