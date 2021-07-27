@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import ImageCropper from "../Common/ImageCropper";
 import ContentWrapper from "../Layout/ContentWrapper";
 import FormValidator from "../../store/reducers/FormValidator";
 import {
@@ -23,6 +22,7 @@ import {
   CardHeader,
 } from "reactstrap";
 import Swal from "sweetalert";
+import Select from "react-select";
 
 const EventFilesForm = (props) => {
   const [editMode, setEditMode] = useState(false);
@@ -59,6 +59,22 @@ const EventFilesForm = (props) => {
     });
   };
 
+  const formatDataForSelect = (object) => {
+    object["value"] = object["id"];
+    object["label"] = object["name"];
+    delete object["id"];
+    delete object["name"];
+    return object;
+  };
+
+  const formatDataForSelectEdit = (array) => {
+    array.forEach( (element) => {
+      element.value = element.id;
+      element.label = element.name;
+    });
+    return array;
+  }
+
   //VERIFICA SI HAY ERRORES
   const hasErrors = (inputName, method) => {
     return (
@@ -74,9 +90,11 @@ const EventFilesForm = (props) => {
     e.preventDefault();
 
     const form = e.target;
-    const inputs = [...form.elements].filter((i) =>
-      ["INPUT", "SELECT"].includes(i.nodeName)
-    );
+    const inputs = [...form.elements].filter((i) =>{
+      if(i.name){
+        return ["INPUT", "SELECT"].includes(i.nodeName)
+      }
+    });
     const { errors } = FormValidator.bulkValidate(inputs);
 
     setNewFileForm({
@@ -152,6 +170,7 @@ const EventFilesForm = (props) => {
     async function getFileAPI() {
       await getFile(props.match.params.id)
         .then((result) => {
+          console.log(result);
           setFile(result.data);
           setNewFileForm({
             event_file: { ...result.data },
@@ -168,7 +187,7 @@ const EventFilesForm = (props) => {
 
     async function getEventsAPI(){
       await getEvents().then((result) => {
-        setEvents(result.data);
+        setEvents(formatDataForSelectEdit(result.data));
       }).catch( (error) => {
         Swal({
           title: "Alert!",
@@ -205,6 +224,59 @@ const EventFilesForm = (props) => {
         filename: acceptedFiles[0]['name']
       }
     });
+  };
+
+  const handleOnChangeEventSelect = (value, { action, removedValue }) => {
+    switch (action) {
+      case "remove-value":
+        //CUANDO BORRAS ELEMENTO
+        if(!editMode){
+          setNewFileForm({
+            event_file: {
+              ...newFileForm.event_file,
+              event_id: value.value,
+            },
+          });
+        }else{
+          // let sponsorsArray = [...newEventForm.event.sponsors];
+          // const elementIndex = newSponsorsId.lastIndexOf(removedValue.value);
+
+          // sponsorsArray.splice(elementIndex, 1);
+          // newSponsorsId.splice(elementIndex, 1);
+          setNewFileForm({
+            event_file: {
+              ...newFileForm.event_file,
+              event_id: value.value,
+            },
+          });
+        }
+        break;
+      case "clear":
+        setNewFileForm({
+          event_file: {
+            ...newFileForm.event_file,
+            event_id: "",
+          },
+        });
+        break;
+      default:
+        if(!editMode){
+          setNewFileForm({
+            event_file: {
+              ...newFileForm.event_file,
+              event_id: value.value,
+            },
+          });
+        }else{
+          setNewFileForm({
+            event_file: {
+              ...newFileForm.event_file,
+              event_id: value.value,
+            },
+          });
+        }
+        break;
+    }
   };
 
   return (
@@ -266,6 +338,25 @@ const EventFilesForm = (props) => {
                         )}
                       </div>
                     </FormGroup>
+                    <FormGroup row>
+                      <label className="col-xl-4 col-form-label">
+                        Event
+                      </label>
+                      <div className="col-xl-8">
+                        <Select
+                          onChange={handleOnChangeEventSelect}
+                          name="event_id"
+                          options={events}
+                          invalid={hasErrors(
+                            "event_file",
+                            "event_id",
+                            "required"
+                          )}
+                          data-validate='["event_id"]'
+                          value={events.find( (event) => event === !editMode ? newFileForm.event_file.event_id : file.event_id)}
+                        />
+                      </div>
+                    </FormGroup>
                   </Col>
                   <Col xl={6}>
                     <Row>
@@ -273,7 +364,7 @@ const EventFilesForm = (props) => {
                           <div className="text-center box-placeholder m-0">Drop some files here, or click to select files to upload.</div>
                           {
                             newFileForm.event_file.file && (
-                              <h4 className="text-center mt-3">Selected File: {newFileForm.event_file.filename} </h4>
+                              <h4 className="text-center mt-3">Selected File: { !editMode ? newFileForm.event_file.filename : newFileForm.event_file.file_file_name} </h4>
                             )
                           }
                       </Dropzone>

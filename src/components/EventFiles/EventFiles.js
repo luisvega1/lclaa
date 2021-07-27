@@ -36,8 +36,14 @@ const EventFiles = (props) => {
         </div>
     )
 
+    const fileButton = ({value}) => (
+        <div className="text-center py-2">
+            <em style={{fontSize: 18, cursor: 'pointer'}} onClick={() => window.open(`${FILES_ENDPOINT}${value}`,'_blank')} class="far fa-file-alt"></em>
+        </div>
+    )
+
     const editFile = ({value}) => {
-        props.history.push(`/sponsors/${value}`)
+        props.history.push(`/files/${value}`)
     }
 
     const deleteFileFunction = async ({value}) => {
@@ -68,7 +74,7 @@ const EventFiles = (props) => {
     const columns = [
         {key: 'name', name: 'Name'},
         {key: 'description', name: 'Description'},
-        {key: 'file', name: 'File'},
+        {key: 'file', name: 'File', formatter: fileButton, width: 80},
         {key: 'id', name: 'Edit', formatter: editButton, width: 80},
         {key: 'id', name: 'Delete', formatter: deleteButton, width: 80}
     ];
