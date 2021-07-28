@@ -49,16 +49,17 @@ class Login extends Component {
         });
 
         //Validate if is valid make api request
-        await login(this.state.formLogin).then( async (response) => {
+        try {
+            const response = await login(this.state.formLogin) ;
             await auth.login(response.data);
             this.props.history.push("/");
-        }).catch( (error) => {
+        } catch (error) {
             Swal({
                 title: '¡Alerta!',
                 icon: 'warning',
-                text: error.response.data.message
-            })
-        })
+                text: error.data
+            });
+        }
     }
 
     /* Simplify error check */

@@ -109,7 +109,7 @@ const Events = (props) => {
                 <div>Events</div>
             </div>
             <div className="text-right mb-3">
-                <Button color="primary" className="shadow rounded-pill" onClick={ () => props.history.push('/events/new')}> <i class="fas fa-plus"></i> Create Exposition</Button>
+                <Button color="primary" className="shadow rounded-pill" onClick={ () => props.history.push('/events/new')}> <i class="fas fa-plus"></i> Create Event</Button>
             </div>
             <Container fluid className="shadow">
                 <ReactDataGrid

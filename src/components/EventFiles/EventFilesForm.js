@@ -188,6 +188,7 @@ const EventFilesForm = (props) => {
       await getEvents().then((result) => {
         setEvents(formatDataForSelectEdit(result.data));
       }).catch( (error) => {
+        console.log(error);
         Swal({
           title: "Alert!",
           icon: "warning",
@@ -352,7 +353,7 @@ const EventFilesForm = (props) => {
                             "required"
                           )}
                           data-validate='["event_id"]'
-                          value={events.find( (event) => event === !editMode ? newFileForm.event_file.event_id : file.event_id)}
+                          value={events.find( (event) => event === !editMode ? newFileForm.event_file.event_id : file ? file.event_id : "")}
                         />
                       </div>
                     </FormGroup>
@@ -363,7 +364,7 @@ const EventFilesForm = (props) => {
                           <div className="text-center box-placeholder m-0">Drop some files here, or click to select files to upload.</div>
                           {
                             newFileForm.event_file.file && (
-                              <h4 className="text-center mt-3">Selected File: { !editMode ? newFileForm.event_file.filename : newFileForm.event_file.file_file_name} </h4>
+                              <h4 className="text-center mt-3">Selected File: { !editMode ? newFileForm.event_file.filename : newFileForm ? newFileForm.event_file.file_file_name : ""} </h4>
                             )
                           }
                       </Dropzone>
