@@ -11,20 +11,42 @@ const Inscriptions = () => {
     useEffect(() => {
         async function getInscriptionsAPI() {
             await getInscriptions().then( (response) => {
-                setInscriptions(response);
+                setInscriptions(response.data);
             })
         }
         getInscriptionsAPI()
     }, []);
 
-    const rowGetter = (i) => inscriptions[i]
+    const paidFormatter = ({value}) => (
+        value ? 
+        <div className="text-center">
+            <em style={{color: "#27c24c"}} className="fas fa-check"></em>
+        </div> : 
+        <div className="text-center">
+            <em style={{color: "#DE350B"}} className="fas fa-times"></em>
+        </div>
+    )
+
+    const valueFormatter = (obj) => (
+        <div className="text-center">
+            <em>{obj.value.name}</em>
+        </div>
+    )
+
+    const dateFormatter = (obj) => (
+        <div className="text-center">
+            <em>{obj.value.date}</em>
+        </div>
+    )
+
+    const rowGetter = (i) => inscriptions[i];
 
     const columns = [
         {key: 'name', name: 'Name'},
-        {key: 'description', name: 'Description'},
-        {key: 'date', name: 'Job'},
-        {key: 'start_time', name: 'Start time', width: 80},
-        {key: 'end_time', name: 'End time', width: 80}
+        {key: 'event', name: 'Event', formatter: valueFormatter},
+        {key: 'event', name: 'Date', formatter: dateFormatter},
+        {key: 'paid', name: 'paid', width: 80, formatter: paidFormatter},
+        {key: 'charge_id', name: 'Charge Id', width: 80}
     ];
 
     return (
