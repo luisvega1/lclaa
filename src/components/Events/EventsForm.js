@@ -36,6 +36,9 @@ const EventsForm = (props) => {
       description: "",
       date: "",
       address: "",
+      location_info: "",
+      img_location: "",
+      img_map: "",
       latitude: "",
       longitude: "",
       speaker_ids: [],
@@ -117,6 +120,9 @@ const EventsForm = (props) => {
               description: "",
               date: "",
               address: "",
+              location_info: "",
+              img_location: "",
+              img_map: "",
               latitude: "",
               longitude: "",
               speaker_ids: [],
@@ -148,6 +154,9 @@ const EventsForm = (props) => {
               description: "",
               date: "",
               address: "",
+              location_info: "",
+              img_location: "",
+              img_map: "",
               latitude: "",
               longitude: "",
               speaker_ids: [],
@@ -239,6 +248,7 @@ const EventsForm = (props) => {
   }, []);
 
   const handleOnChangeSelect = (value, { action, removedValue }) => {
+    console.log(newEventForm);
     let newSpeakerIds = newEventForm.event.speaker_ids;
     switch (action) {
       case "remove-value":
@@ -422,11 +432,35 @@ const EventsForm = (props) => {
                       </div>
                     </FormGroup>
                     <FormGroup row>
+                      <label className="col-xl-4 col-form-label">
+                        Location info
+                      </label>
+                      <div className="col-xl-8">
+                        <Input
+                          onChange={validateOnChange}
+                          type="textarea"
+                          name="location_info"
+                          invalid={hasErrors(
+                            "event",
+                            "location_info",
+                            "required"
+                          )}
+                          data-validate='["required"]'
+                          value={newEventForm.event.location_info}
+                        />
+                        {hasErrors("event", "location_description", "required") && (
+                          <span className="invalid-feedback">
+                            Required field
+                          </span>
+                        )}
+                      </div>
+                    </FormGroup>
+                    <FormGroup row>
                       <label className="col-xl-4 col-form-label">Date</label>
                       <div className="col-xl-8">
                         <Input
                           onChange={validateOnChange}
-                          type="date"
+                          type="text"
                           name="date"
                           invalid={hasErrors(
                             "event",
@@ -498,6 +532,24 @@ const EventsForm = (props) => {
                           imageGetter={getImage}
                           id="ban"
                           type="banner"
+                          user={event}
+                        />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col xl={6}>
+                        <ImageCropper
+                          imageGetter={getImage}
+                          id="location"
+                          type="img_location"
+                          user={event}
+                        />
+                      </Col>
+                      <Col xl={6}>
+                        <ImageCropper
+                          imageGetter={getImage}
+                          id="map"
+                          type="img_map"
                           user={event}
                         />
                       </Col>

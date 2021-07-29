@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const ENDPOINT = "http://192.241.146.9/api/";
-export const FILES_ENDPOINT = "http://192.241.146.9";
+export const ENDPOINT = "https://app.lclaa.org/api/";
+export const FILES_ENDPOINT = "https://app.lclaa.org";
 
 const sessionToken = () => (
     JSON.parse(sessionStorage.getItem("USERSESSION")) ? JSON.parse(sessionStorage.getItem("USERSESSION")).token : false
@@ -157,4 +157,9 @@ export const getFile = async (id) => {
 
 export const updateFile = async  (file,id) => {
     return await requestFunction('put', `${ENDPOINT}event_files/${id}`, file)
+}
+
+//INSCRIPTIONS
+export const getInscriptions = async () => {
+    return await requestFunction('get', `${ENDPOINT}inscriptions`);
 }

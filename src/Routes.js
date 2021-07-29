@@ -30,6 +30,7 @@ const Events = lazy(() => import('./components/Events/Events'));
 const EventsForm = lazy(() => import('./components/Events/EventsForm'));
 const Files = lazy(() => import('./components/EventFiles/EventFiles'));
 const FilesForm = lazy(() => import('./components/EventFiles/EventFilesForm'));
+const Inscriptions = lazy(() => import('./components/Inscriptions/Inscriptions'));
 const Login = lazy(() => import('./pages/Login'));
 
 //Lista de paginas que van fuera del layout wrapper
@@ -95,6 +96,7 @@ const Routes = ({ location }) => {
                                 <ProtectedRoute exact path="/files" component={waitFor(Files)}/>
                                 <ProtectedRoute exact path="/files/new" component={waitFor(FilesForm)}/>
                                 <ProtectedRoute exact path="/files/:id" component={waitFor(FilesForm)}/>
+                                <ProtectedRoute exact path="/inscriptions" component={waitFor(Inscriptions)} />
                                 <ProtectedRoute path="*" component={() => <Redirect to={{pathname: "/"}}/>} />
                             </Switch>
                         </Suspense>

@@ -36,7 +36,7 @@ const ImageCropper = ({type, user, imageGetter}) => {
 
     //PONER IMAGENES DEFAULT DEL USUARIO (LAS QUE YA TIENE)
     const setDefaultImages = () => {
-        type === 'avatar' ? setImage(`${FILES_ENDPOINT}${user.avatar}`) : type === 'banner' ? setImage(`${FILES_ENDPOINT}${user.banner}`) : setImage(`${FILES_ENDPOINT}${user.image}`);
+        type === 'avatar' ? setImage(`${FILES_ENDPOINT}${user.avatar}`) : type === 'banner' ? setImage(`${FILES_ENDPOINT}${user.banner}`) : type === 'image' ? setImage(`${FILES_ENDPOINT}${user.image}`) : type === 'img_location' ? setImage(`${FILES_ENDPOINT}${user.img_location}`) : setImage(`${FILES_ENDPOINT}${user.img_map}`);
     }
 
     useEffect( () =>{
@@ -114,10 +114,10 @@ const ImageCropper = ({type, user, imageGetter}) => {
                 ) : (
                 <Row>
                     <Col xl={{size: 6, offset: 3}}  className="d-flex flex-column align-items-center">
-                        <h3>Image</h3>
-                        <img src={image} className={type === 'avatar' ? 'img-fluid rounded-circle shadow mb-3' : 'img-fluid rounded shadow mb-3'} width={400} heigth={400} alt="image" />
-                        <label htmlFor="inputImage" title="Upload image file" className="btn btn-info btn-upload shadow">
-                            <Input id="inputImage" name="file" type="file" accept="image/*" className="sr-only" onChange={handleFileChange} />
+                        <h3>{type === 'image' ? 'Image' : type === 'img_location' ? 'Location' : 'Map'}</h3>
+                        <img src={image} className={type === 'avatar' ? 'img-fluid rounded-circle shadow mb-3' : 'img-fluid rounded shadow mb-3'} width={400} heigth={400} alt={type} />
+                        <label htmlFor={type} title="Upload image file" className="btn btn-info btn-upload shadow">
+                            <Input id={type} name="file" type="file" accept="image/*" className="sr-only" onChange={handleFileChange} />
                             <span title="Import image with Blob URLs" className="docs-tooltip">
                                 Select Image
                             </span>

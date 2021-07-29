@@ -24,12 +24,6 @@ const Speakers = (props) => {
         </div>
     );
 
-    const BannerFormatter = props => (
-        <div className="text-center py-2">
-            <img src={`${FILES_ENDPOINT}${props.value}`} className="img-fluid" width="50" alt="banner"/>
-        </div>
-    );
-
     const editButton = props => (
         <div className="text-center py-2">
             <Button color="warning" onClick={() => editSpeaker(props)}> <i className="far fa-edit"></i> </Button>
@@ -73,7 +67,6 @@ const Speakers = (props) => {
 
     const columns = [
         {key: 'avatar', name: 'Avatar', formatter: ImageFormatter, width: 80},
-        {key: 'banner', name: 'Banner', formatter: BannerFormatter, width: 120},
         {key: 'name', name: 'Name'},
         {key: 'description', name: 'Description'},
         {key: 'job', name: 'Job'},
