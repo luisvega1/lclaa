@@ -35,6 +35,7 @@ const ExpositionsForm = (props) => {
       event_id: "",
       name: "",
       description: "",
+      price: "",
       date: "",
       start_time: "",
       end_time: "",
@@ -113,6 +114,7 @@ const ExpositionsForm = (props) => {
               event_id: "",
               name: "",
               description: "",
+              price: "",
               date: "",
               start_time: "",
               end_time: "",
@@ -144,6 +146,7 @@ const ExpositionsForm = (props) => {
               event_id: "",
               name: "",
               description: "",
+              price: "",
               date: "",
               start_time: "",
               end_time: "",
@@ -387,6 +390,30 @@ const ExpositionsForm = (props) => {
                           value={newExpositionForm.exposition.description}
                         />
                         {hasErrors("exposition", "description", "required") && (
+                          <span className="invalid-feedback">
+                            Required field
+                          </span>
+                        )}
+                      </div>
+                    </FormGroup>
+                    <FormGroup row>
+                      <label className="col-xl-4 col-form-label">
+                        Price
+                      </label>
+                      <div className="col-xl-8">
+                        <Input
+                          onChange={validateOnChange}
+                          type="number"
+                          name="price"
+                          invalid={hasErrors(
+                            "exposition",
+                            "price",
+                            "number"
+                          )}
+                          data-validate='["required"]'
+                          value={newExpositionForm.exposition.price}
+                        />
+                        {hasErrors("exposition", "price", "number") && (
                           <span className="invalid-feedback">
                             Required field
                           </span>
