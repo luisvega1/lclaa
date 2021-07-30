@@ -193,3 +193,24 @@ export const getChecker = async (id) => {
 export const updateChecker = async  (checker,id) => {
     return await requestFunction('put', `${ENDPOINT}checkers/${id}`, checker)
 }
+
+//CLIENTS
+export const newClient = async  (client) => {
+    return await requestFunction('post', `${ENDPOINT}clients`, client)
+}
+
+export const getClients = async () => {
+    return await requestFunction('get', `${ENDPOINT}clients`);
+}
+
+export const deleteClient = async (id) => {
+    return await requestFunction('delete', `${ENDPOINT}clients/${id}`);
+}
+
+export const getClient = async (id) => {
+    return await requestFunction('get', `${ENDPOINT}clients/${id}`);
+}
+
+export const updateClient = async  (client,id) => {
+    return await requestFunction('put', `${ENDPOINT}clients/${id}`, client)
+}
