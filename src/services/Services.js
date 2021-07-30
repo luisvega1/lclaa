@@ -214,3 +214,24 @@ export const getClient = async (id) => {
 export const updateClient = async  (client,id) => {
     return await requestFunction('put', `${ENDPOINT}clients/${id}`, client)
 }
+
+//Notifications
+export const newNotification = async  (notification) => {
+    return await requestFunction('post', `${ENDPOINT}notifications`, notification)
+}
+
+export const getNotifications = async () => {
+    return await requestFunction('get', `${ENDPOINT}notifications`);
+}
+
+export const deleteNotification = async (id) => {
+    return await requestFunction('delete', `${ENDPOINT}notifications/${id}`);
+}
+
+export const getNotifications = async (id) => {
+    return await requestFunction('get', `${ENDPOINT}notifications/${id}`);
+}
+
+export const updateNotifications = async  (notification,id) => {
+    return await requestFunction('put', `${ENDPOINT}notifications/${id}`, notification)
+}

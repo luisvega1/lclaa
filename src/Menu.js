@@ -22,7 +22,7 @@ const Menu = [
                 path: '/events'
             },
             {
-                name: 'Event files',
+                name: 'Documents',
                 path: '/files'
             },
         ]
@@ -38,7 +38,7 @@ const Menu = [
         icon : 'fas fa-clipboard-check'
     },
     {
-        name: 'Inscriptions',
+        name: 'Paid Events',
         path: '/inscriptions',
         icon : 'fas fa-user-tie'
     },
