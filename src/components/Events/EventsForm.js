@@ -138,7 +138,7 @@ const EventsForm = (props) => {
           Swal({
             title: "¡Alerta!",
             icon: "warning",
-            text: error.response.data.message,
+            text: error.data,
           });
         });
     } else {
@@ -172,7 +172,7 @@ const EventsForm = (props) => {
           Swal({
             title: "Alert!",
             icon: "warning",
-            text: error.response.data.message,
+            text: error.data,
           });
         });
     }
@@ -216,7 +216,7 @@ const EventsForm = (props) => {
           Swal({
             title: "Alert!",
             icon: "warning",
-            text: error.response.data.message,
+            text: error.data,
           });
         });
     }

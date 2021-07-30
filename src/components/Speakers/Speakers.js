@@ -55,7 +55,7 @@ const Speakers = (props) => {
                     setData(speakers.filter( (speaker) => speaker.id !== value));
                     notify("Speaker eliminado.");
                 }).catch( (error) => {
-                    Swal(error.response.data.message, {
+                    Swal(error.data, {
                         icon: "warning",
                     });
                 })

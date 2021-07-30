@@ -70,7 +70,7 @@ const Events = (props) => {
                     setData(events.filter( (event) => event.id !== value));
                     notify("Event deleted.");
                 }).catch( (error) => {
-                    Swal(error.response.data.message, {
+                    Swal(error.data, {
                         icon: "warning",
                     });
                 })

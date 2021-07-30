@@ -61,7 +61,7 @@ const EventFiles = (props) => {
                     setData(files.filter( (file) => file.id !== value));
                     notify("File deleted.");
                 }).catch( (error) => {
-                    Swal(error.response.data.message, {
+                    Swal(error.data, {
                         icon: "warning",
                     });
                 })

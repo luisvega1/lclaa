@@ -33,6 +33,11 @@ const Menu = [
         icon : 'fas fa-chalkboard-teacher'
     },
     {
+        name: 'Checkers',
+        path: '/checkers',
+        icon : 'fas fa-clipboard-check'
+    },
+    {
         name: 'Inscriptions',
         path: '/inscriptions',
         icon : 'fas fa-user-tie'

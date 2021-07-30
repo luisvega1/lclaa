@@ -55,7 +55,7 @@ const Administrators = (props) => {
                     setData(administrators.filter( (administrator) => administrator.id !== value));
                     notify("Administrator deleted.");
                 }).catch( (error) => {
-                    Swal(error.response.data.message, {
+                    Swal(error.data, {
                         icon: "warning",
                     });
                 })

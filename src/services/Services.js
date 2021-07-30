@@ -20,7 +20,16 @@ const requestFunction = async (method, url, body) => {
         const response = await axios(options);
         return {error: false, data: response.data};
     } catch (error) {
-        throw {error: true, data: error.response.data.message}
+        let errorMessages = [];
+        const errors = error.response.data;
+        for(let error in errors){
+            if(Array.isArray(errors[error])){
+                errorMessages.push(`${errors[error][0]}, `);
+            }else{
+                errorMessages.push(`${errors[error]}, `);
+            }
+        }
+        throw {error: true, data: "".concat(errorMessages)}
     }
 };
 
@@ -162,4 +171,25 @@ export const updateFile = async  (file,id) => {
 //INSCRIPTIONS
 export const getInscriptions = async () => {
     return await requestFunction('get', `${ENDPOINT}inscriptions`);
+}
+
+//CHECKERS
+export const newChecker = async  (checker) => {
+    return await requestFunction('post', `${ENDPOINT}checkers`, checker)
+}
+
+export const getCheckers = async () => {
+    return await requestFunction('get', `${ENDPOINT}checkers`);
+}
+
+export const deleteChecker = async (id) => {
+    return await requestFunction('delete', `${ENDPOINT}checkers/${id}`);
+}
+
+export const getChecker = async (id) => {
+    return await requestFunction('get', `${ENDPOINT}checkers/${id}`);
+}
+
+export const updateChecker = async  (checker,id) => {
+    return await requestFunction('put', `${ENDPOINT}checkers/${id}`, checker)
 }

@@ -70,7 +70,7 @@ const Expositions = (props) => {
                     setData(expositions.filter( (exposition) => exposition.id !== value));
                     notify("Exposition deleted.");
                 }).catch( (error) => {
-                    Swal(error.response.data.message, {
+                    Swal(error.data, {
                         icon: "warning",
                     });
                 })

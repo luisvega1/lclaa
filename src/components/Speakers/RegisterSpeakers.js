@@ -111,7 +111,7 @@ const RegisterSpeaker = (props) => {
         Swal({
           title: "¡Alerta!",
           icon: "warning",
-          text: error.response.data.message,
+          text: error.data,
         });
       });
     }else{
@@ -162,7 +162,7 @@ const RegisterSpeaker = (props) => {
         Swal({
           title: "Alert!",
           icon: "warning",
-          text: error.response.data.message,
+          text: error.data,
         });
       })
     }

@@ -112,7 +112,7 @@ const RegisterSponsor = (props) => {
           Swal({
             title: "¡Alerta!",
             icon: "warning",
-            text: error.response.data.message,
+            text: error.data,
           });
         });
     } else {
@@ -135,7 +135,7 @@ const RegisterSponsor = (props) => {
           Swal({
             title: "Alert!",
             icon: "warning",
-            text: error.response.data.message,
+            text: error.data,
           });
         });
     }
@@ -162,7 +162,7 @@ const RegisterSponsor = (props) => {
           Swal({
             title: "Alert!",
             icon: "warning",
-            text: error.response.data.message,
+            text: error.data,
           });
         });
     }

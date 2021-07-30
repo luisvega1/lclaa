@@ -130,7 +130,7 @@ const ExpositionsForm = (props) => {
           Swal({
             title: "¡Alerta!",
             icon: "warning",
-            text: error.response.data.message,
+            text: error.data,
           });
         });
     } else {
@@ -162,7 +162,7 @@ const ExpositionsForm = (props) => {
           Swal({
             title: "Alert!",
             icon: "warning",
-            text: error.response.data.message,
+            text: error.data,
           });
         });
     }
@@ -198,7 +198,7 @@ const ExpositionsForm = (props) => {
           Swal({
             title: "Alert!",
             icon: "warning",
-            text: error.response.data.message,
+            text: error.data,
           });
         });
     }

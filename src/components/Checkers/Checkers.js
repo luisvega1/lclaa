@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import ReactDataGrid from 'react-data-grid';
 import { Button, Container } from 'reactstrap';
 import ContentWrapper from "../Layout/ContentWrapper";
-import { FILES_ENDPOINT, getSponsors, deleteSponsor } from '../../services/Services';
+import { FILES_ENDPOINT, getCheckers, deleteChecker } from '../../services/Services';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from 'sweetalert';
 
-const Sponsors = (props) => {
+const Checkers = (props) => {
 
     const [data, setData] = useState([]);
 
@@ -18,37 +18,25 @@ const Sponsors = (props) => {
         });
     };
 
-    const ImageFormatter = props => (
-        <div className="text-center py-2">
-            <img src={`${FILES_ENDPOINT}${props.value}`} className="img-fluid thumb32" alt="avatar"/>
-        </div>
-    );
-
-    const BannerFormatter = props => (
-        <div className="text-center py-2">
-            <img src={`${FILES_ENDPOINT}${props.value}`} className="img-fluid" width="50" alt="banner"/>
-        </div>
-    );
-
     const editButton = props => (
         <div className="text-center py-2">
-            <Button color="warning" onClick={() => editSponsor(props)}> <i className="far fa-edit"></i> </Button>
+            <Button color="warning" onClick={() => editChecker(props)}> <i className="far fa-edit"></i> </Button>
         </div>
     )
 
     const deleteButton = props => (
         <div className="text-center py-2">
-            <Button color="danger" onClick={() => deleteSponsorFunction(props)}> <i class="far fa-trash-alt"></i> </Button>
+            <Button color="danger" onClick={() => deleteCheckerFunction(props)}> <i class="far fa-trash-alt"></i> </Button>
         </div>
     )
 
-    const editSponsor = ({value}) => {
-        props.history.push(`/sponsors/${value}`)
+    const editChecker = ({value}) => {
+        props.history.push(`/checkers/${value}`)
     }
 
-    const deleteSponsorFunction = async ({value}) => {
+    const deleteCheckerFunction = async ({value}) => {
         Swal({
-            title: "Do you want to delete this Sponsor?",
+            title: "Do you want to delete this checker?",
             text: "Once deleted, the information cannot be recovered.",
             icon: "warning",
             buttons: true,
@@ -56,10 +44,10 @@ const Sponsors = (props) => {
           })
           .then(async (willDelete) => {
             if (willDelete) {
-                await deleteSponsor(value).then( () => {
-                    let sponsors = [...data];
-                    setData(sponsors.filter( (sponsor) => sponsor.id !== value));
-                    notify("Sponsor deleted.");
+                await deleteChecker(value).then( () => {
+                    let checkers = [...data];
+                    setData(checkers.filter( (checker) => checker.id !== value));
+                    notify("Checker deleted.");
                 }).catch( (error) => {
                     Swal(error.data, {
                         icon: "warning",
@@ -72,31 +60,33 @@ const Sponsors = (props) => {
     const rowGetter = (i) => data[i]
 
     const columns = [
-        {key: 'avatar', name: 'Avatar', formatter: ImageFormatter, width: 80},
-        {key: 'banner', name: 'Banner', formatter: BannerFormatter, width: 80},
         {key: 'name', name: 'Name'},
-        {key: 'description', name: 'Description'},
+        {key: 'lastname', name: 'Lastname'},
+        {key: 'email', name: 'Email'},
+        {key: 'phone_num', name: 'Phone number'},
+        {key: 'state', name: 'State'},
+        {key: 'city', name: 'City'},
         {key: 'id', name: 'Edit', formatter: editButton, width: 80},
         {key: 'id', name: 'Delete', formatter: deleteButton, width: 80}
     ];
 
     useEffect( () => {
-        async function fetchSponsorApi() {
-            await getSponsors().then( (result) => {
+        async function fetchCheckersAPI() {
+            await getCheckers().then( (result) => {
                 setData(result.data)
             });
         }
 
-        fetchSponsorApi();
+        fetchCheckersAPI();
     }, [])
 
     return(
         <ContentWrapper>
             <div className="content-heading">
-                <div>Sponsors</div>
+                <div>Checkers</div>
             </div>
             <div className="text-right mb-3">
-                <Button color="primary" className="shadow rounded-pill" onClick={ () => props.history.push('/sponsors/new')}> <i class="fas fa-plus"></i> Create Sponsor</Button>
+                <Button color="primary" className="shadow rounded-pill" onClick={ () => props.history.push('/checkers/new')}> <i class="fas fa-plus"></i> Create Checker</Button>
             </div>
             <Container fluid className="shadow">
                 <ReactDataGrid
@@ -110,4 +100,4 @@ const Sponsors = (props) => {
     )
 }
 
-export default Sponsors;
+export default Checkers;

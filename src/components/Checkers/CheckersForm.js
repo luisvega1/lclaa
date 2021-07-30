@@ -3,9 +3,9 @@ import ImageCropper from "../Common/ImageCropper";
 import ContentWrapper from "../Layout/ContentWrapper";
 import FormValidator from "../../store/reducers/FormValidator";
 import {
-  newAdministrator,
-  getAdministrator,
-  updateAdministrator,
+  newChecker,
+  getChecker,
+  updateChecker,
 } from "../../services/Services";
 import { toast } from "react-toastify";
 import { withNamespaces } from "react-i18next";
@@ -22,12 +22,12 @@ import {
 } from "reactstrap";
 import Swal from "sweetalert";
 
-const RegisterAdministrator = (props) => {
+const CheckersForm = (props) => {
   const [editMode, setEditMode] = useState(false);
-  const [user, setUser] = useState(null);
-  //FORM DEL ADMINSITRADOR
-  const [newAdministratorForm, setnewAdministratorForm] = useState({
-    admin: {
+  const [checker, setChecker] = useState(null);
+  //FORM DEL CHECKER
+  const [newCheckerForm, setnewCheckerForm] = useState({
+    checker: {
       name: "",
       lastname: "",
       email: "",
@@ -46,13 +46,13 @@ const RegisterAdministrator = (props) => {
     const value = input.type === "checkbox" ? input.checked : input.value;
     const result = FormValidator.validate(input);
 
-    setnewAdministratorForm({
-      admin: {
-        ...newAdministratorForm.admin,
+    setnewCheckerForm({
+      checker: {
+        ...newCheckerForm.checker,
         [input.name]: value,
       },
       errors: {
-        ...newAdministratorForm.errors,
+        ...newCheckerForm.errors,
         [input.name]: result,
       },
     });
@@ -61,25 +61,16 @@ const RegisterAdministrator = (props) => {
   //VERIFICA SI HAY ERRORES
   const hasErrors = (inputName, method) => {
     return (
-      newAdministratorForm &&
-      newAdministratorForm.errors &&
-      newAdministratorForm.errors[inputName] &&
-      newAdministratorForm.errors[inputName][method]
+      newCheckerForm &&
+      newCheckerForm.errors &&
+      newCheckerForm.errors[inputName] &&
+      newCheckerForm.errors[inputName][method]
     );
   };
 
-  //METODO PARA OBTENER IMAGENES DEL COMPONENTE ImageCropper
-  const getImage = (image, type) => {
-    setnewAdministratorForm({
-      admin: {
-        ...newAdministratorForm.admin,
-        [type]: image,
-      },
-    });
-  };
 
   //ENVIAR REQUEST
-  const submitnewAdministrator = async (e) => {
+  const submitnewChecker = async (e) => {
     e.preventDefault();
 
     const form = e.target;
@@ -88,21 +79,21 @@ const RegisterAdministrator = (props) => {
     );
     const { errors } = FormValidator.bulkValidate(inputs);
 
-    setnewAdministratorForm({
-      admin: {
-        ...newAdministratorForm.admin,
+    setnewCheckerForm({
+      checker: {
+        ...newCheckerForm.checker,
       },
       errors,
     });
 
     //Validate if is valid make api request
     if (!editMode) {
-      await newAdministrator(newAdministratorForm)
+      await newChecker(newCheckerForm)
         .then(async (response) => {
           //USUARIO CREADO CORRECTAMENTE
-          notify("Adminstrator created.");
-          setnewAdministratorForm({
-            admin: {
+          notify("Checker created.");
+          setnewCheckerForm({
+            checker: {
               name: "",
               lastname: "",
               email: "",
@@ -124,12 +115,12 @@ const RegisterAdministrator = (props) => {
           });
         });
     } else {
-      await updateAdministrator({ admin: newAdministratorForm.admin }, user.id)
+      await updateChecker({ checker: newCheckerForm.checker }, checker.id)
         .then(() => {
           //USUARIO MODIFICADO CORRECTAMENTE
-          notify("Administrator modified.");
-          setnewAdministratorForm({
-            admin: {
+          notify("Checker modified.");
+          setnewCheckerForm({
+            checker: {
               name: "",
               lastname: "",
               email: "",
@@ -162,13 +153,13 @@ const RegisterAdministrator = (props) => {
 
   //SE EJECUTA AL INICIAR
   useEffect(() => {
-    async function getAdministratorAPI() {
-      await getAdministrator(props.match.params.id)
+    async function getCheckerAPI() {
+      await getChecker(props.match.params.id)
         .then((result) => {
           console.log(result.data);
-          setUser(result.data);
-          setnewAdministratorForm({
-            admin: { ...result.data },
+          setChecker(result.data);
+          setnewCheckerForm({
+            checker: { ...result.data },
           });
         })
         .catch((error) => {
@@ -182,10 +173,10 @@ const RegisterAdministrator = (props) => {
 
     if (!props.match.params.id) {
       const user = JSON.parse(sessionStorage.getItem("USERSESSION"));
-      setUser(user);
+      setChecker(user);
     } else {
       setEditMode(true);
-      getAdministratorAPI();
+      getCheckerAPI();
     }
   }, []);
 
@@ -193,23 +184,23 @@ const RegisterAdministrator = (props) => {
     <ContentWrapper>
       <div className="content-heading">
         <div>
-          {!editMode ? "Administrator registration" : "Update information"}
+          {!editMode ? "Checker registration" : "Update information"}
         </div>
       </div>
       <Row>
         <Col xs={12} className="text-center">
           <Card className="p-3 shadow">
             <CardHeader className="text-left mb-4">
-              {!editMode ? "New Administrator" : "Modify Administrator"}
+              {!editMode ? "New Checker" : "Modify Checker"}
             </CardHeader>
             <CardBody>
               <form
                 className="form-horizontal"
-                name="admin"
-                onSubmit={submitnewAdministrator}
+                name="checker"
+                onSubmit={submitnewChecker}
               >
                 <Row>
-                  <Col xl={6}>
+                  <Col xl={12}>
                     <FormGroup row>
                       <label className="col-xl-4 col-form-label">Name</label>
                       <div className="col-xl-8">
@@ -217,11 +208,11 @@ const RegisterAdministrator = (props) => {
                           onChange={validateOnChange}
                           type="text"
                           name="name"
-                          invalid={hasErrors("admin", "name", "required")}
+                          invalid={hasErrors("checker", "name", "required")}
                           data-validate='["required"]'
-                          value={newAdministratorForm.admin.name}
+                          value={newCheckerForm.checker.name}
                         />
-                        {hasErrors("admin", "name", "required") && (
+                        {hasErrors("checker", "name", "required") && (
                           <span className="invalid-feedback">
                             Required field
                           </span>
@@ -237,11 +228,11 @@ const RegisterAdministrator = (props) => {
                           onChange={validateOnChange}
                           type="text"
                           name="lastname"
-                          invalid={hasErrors("admin", "lastname", "required")}
+                          invalid={hasErrors("checker", "lastname", "required")}
                           data-validate='["required"]'
-                          value={newAdministratorForm.admin.lastname}
+                          value={newCheckerForm.checker.lastname}
                         />
-                        {hasErrors("admin", "lastname", "required") && (
+                        {hasErrors("checker", "lastname", "required") && (
                           <span className="invalid-feedback">
                             Required field
                           </span>
@@ -256,18 +247,18 @@ const RegisterAdministrator = (props) => {
                           type="text"
                           name="email"
                           invalid={
-                            hasErrors("admin", "email", "required") ||
-                            hasErrors("admin", "email", "email")
+                            hasErrors("checker", "email", "required") ||
+                            hasErrors("checker", "email", "email")
                           }
                           data-validate='["required","email"]'
-                          value={newAdministratorForm.admin.email}
+                          value={newCheckerForm.checker.email}
                         />
-                        {hasErrors("admin", "email", "required") && (
+                        {hasErrors("checker", "email", "required") && (
                           <span className="invalid-feedback">
                             Required field
                           </span>
                         )}
-                        {hasErrors("admin", "email", "email") && (
+                        {hasErrors("checker", "email", "email") && (
                           <span className="invalid-feedback">
                             Field must be valid email
                           </span>
@@ -282,18 +273,18 @@ const RegisterAdministrator = (props) => {
                           type="number"
                           name="phone_num"
                           invalid={
-                            hasErrors("admin", "phone_num", "required") ||
-                            hasErrors("admin", "phone_num", "number")
+                            hasErrors("checker", "phone_num", "required") ||
+                            hasErrors("checker", "phone_num", "number")
                           }
                           data-validate='["required","email"]'
-                          value={newAdministratorForm.admin.phone_num}
+                          value={newCheckerForm.checker.phone_num}
                         />
-                        {hasErrors("admin", "phone_num", "required") && (
+                        {hasErrors("checker", "phone_num", "required") && (
                           <span className="invalid-feedback">
                             Required field
                           </span>
                         )}
-                        {hasErrors("admin", "phone_num", "number") && (
+                        {hasErrors("checker", "phone_num", "number") && (
                           <span className="invalid-feedback">
                             Field must be valid phone number
                           </span>
@@ -307,11 +298,11 @@ const RegisterAdministrator = (props) => {
                           onChange={validateOnChange}
                           type="text"
                           name="state"
-                          invalid={hasErrors("admin", "state", "required")}
+                          invalid={hasErrors("checker", "state", "required")}
                           data-validate='["required"]'
-                          value={newAdministratorForm.admin.state}
+                          value={newCheckerForm.checker.state}
                         />
-                        {hasErrors("admin", "lastname", "required") && (
+                        {hasErrors("checker", "lastname", "required") && (
                           <span className="invalid-feedback">
                             Required field
                           </span>
@@ -326,12 +317,12 @@ const RegisterAdministrator = (props) => {
                           type="text"
                           name="city"
                           invalid={
-                            hasErrors("admin", "city", "required")
+                            hasErrors("checker", "city", "required")
                           }
                           data-validate='["required"]'
-                          value={newAdministratorForm.admin.city}
+                          value={newCheckerForm.checker.city}
                         />
-                        {hasErrors("admin", "city", "required") && (
+                        {hasErrors("checker", "city", "required") && (
                           <span className="invalid-feedback">
                             Required field
                           </span>
@@ -346,12 +337,12 @@ const RegisterAdministrator = (props) => {
                           type="password"
                           name="password"
                           invalid={
-                            hasErrors("admin", "password", "required")
+                            hasErrors("checker", "password", "required")
                           }
                           data-validate='["required"]'
-                          value={newAdministratorForm.admin.password}
+                          value={newCheckerForm.checker.password}
                         />
-                        {hasErrors("admin", "password", "required") && (
+                        {hasErrors("checker", "password", "required") && (
                           <span className="invalid-feedback">
                             Required field
                           </span>
@@ -366,30 +357,18 @@ const RegisterAdministrator = (props) => {
                           type="password"
                           name="password_confirmation"
                           invalid={
-                            hasErrors("admin", "password_confirmation", "required")
+                            hasErrors("checker", "password_confirmation", "required")
                           }
                           data-validate='["required"]'
-                          value={newAdministratorForm.admin.password_confirmation}
+                          value={newCheckerForm.checker.password_confirmation}
                         />
-                        {hasErrors("admin", "password_confirmation", "required") && (
+                        {hasErrors("checker", "password_confirmation", "required") && (
                           <span className="invalid-feedback">
                             Required field
                           </span>
                         )}
                       </div>
                     </FormGroup>
-                  </Col>
-                  <Col xl={6}>
-                    <Row>
-                      <Col xl={6}>
-                        <ImageCropper
-                          imageGetter={getImage}
-                          id="av"
-                          type="avatar"
-                          user={user}
-                        />
-                      </Col>
-                    </Row>
                   </Col>
                 </Row>
                 <hr />
@@ -409,4 +388,4 @@ const RegisterAdministrator = (props) => {
   );
 };
 
-export default withNamespaces("translations")(RegisterAdministrator);
+export default withNamespaces("translations")(CheckersForm);
