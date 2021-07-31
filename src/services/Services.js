@@ -235,3 +235,24 @@ export const getNotification = async (id) => {
 export const updateNotification = async  (notification,id) => {
     return await requestFunction('put', `${ENDPOINT}notifications/${id}`, notification)
 }
+
+//RESOLUTIONS
+export const newResolution = async  (resolution) => {
+    return await requestFunction('post', `${ENDPOINT}resolutions`, resolution)
+}
+
+export const getResolutions = async () => {
+    return await requestFunction('get', `${ENDPOINT}resolutions`);
+}
+
+export const deleteResolution = async (id) => {
+    return await requestFunction('delete', `${ENDPOINT}resolutions/${id}`);
+}
+
+export const getResolution = async (id) => {
+    return await requestFunction('get', `${ENDPOINT}resolutions/${id}`);
+}
+
+export const updateResolution = async  (resolution,id) => {
+    return await requestFunction('put', `${ENDPOINT}resolutions/${id}`, resolution)
+}

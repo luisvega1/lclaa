@@ -37,7 +37,9 @@ const Clients = lazy(() => import('./components/Clients/Clients'));
 const ClientsForm = lazy(() => import('./components/Clients/ClientsForm'));
 const Login = lazy(() => import('./pages/Login'));
 const Notifications = lazy(() => import('./components/Notifications/Notifications'));
-const RegisterNotification = lazy(() => import('./components/Notifications/RegisterNotifications'))
+const RegisterNotification = lazy(() => import('./components/Notifications/RegisterNotifications'));
+const Resolutions = lazy(() => import('./components/Resolutions/Resolutions'));
+const ResolutionsForm = lazy(() => import('./components/Resolutions/ResolutionsForm'));
 
 //Lista de paginas que van fuera del layout wrapper
 const listofPages = [
@@ -112,6 +114,9 @@ const Routes = ({ location }) => {
                                 <ProtectedRoute exact path="/notifications" component={waitFor(Notifications)}/>
                                 <ProtectedRoute exact path="/notifications/new" component={waitFor(RegisterNotification)}/>
                                 <ProtectedRoute exact path="/notifications/:id" component={waitFor(RegisterNotification)}/>
+                                <ProtectedRoute exact path="/resolutions" component={waitFor(Resolutions)}/>
+                                <ProtectedRoute exact path="/resolutions/new" component={waitFor(ResolutionsForm)}/>
+                                <ProtectedRoute exact path="/resolutions/:id" component={waitFor(ResolutionsForm)}/>
                                 <ProtectedRoute path="*" component={() => <Redirect to={{pathname: "/"}}/>} />
                             </Switch>
                         </Suspense>
