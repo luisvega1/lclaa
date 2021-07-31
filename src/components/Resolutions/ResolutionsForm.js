@@ -329,7 +329,7 @@ const ResolutionsForm = (props) => {
                             "required"
                           )}
                           data-validate='["required"]'
-                          value={events.find( (event) => event === !editMode ? newResolutionForm.resolution.event_id : resolution ? resolution.event.id : "")}
+                          value={events.find( (event) => event === !editMode ? newResolutionForm.resolution.event_id : resolution ? resolution.event ? resolution.event.id : "" : "")}
                         />
                       </div>
                     </FormGroup>
