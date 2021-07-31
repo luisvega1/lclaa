@@ -111,6 +111,7 @@ const Routes = ({ location }) => {
                                 <ProtectedRoute exact path="/clients/:id" component={waitFor(ClientsForm)}/>
                                 <ProtectedRoute exact path="/notifications" component={waitFor(Notifications)}/>
                                 <ProtectedRoute exact path="/notifications/new" component={waitFor(RegisterNotification)}/>
+                                <ProtectedRoute exact path="/notifications/:id" component={waitFor(RegisterNotification)}/>
                                 <ProtectedRoute path="*" component={() => <Redirect to={{pathname: "/"}}/>} />
                             </Switch>
                         </Suspense>

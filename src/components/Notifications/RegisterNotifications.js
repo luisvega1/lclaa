@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import ImageCropper from "../Common/ImageCropper";
 import ContentWrapper from "../Layout/ContentWrapper";
 import FormValidator from "../../store/reducers/FormValidator";
-import { newSpeaker, getSpeaker, updateSpeaker } from "../../services/Services";
+import { newNotification, getNotification, updateNotification } from "../../services/Services";
 import { toast } from "react-toastify";
 import { withNamespaces } from "react-i18next";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,15 +20,12 @@ import Swal from "sweetalert";
 const RegisterNotification = (props) => {
 
   const [editMode, setEditMode] = useState(false);
-  const [user, setUser] = useState(null);
-  //FORM DEL SPEAKER
-  const [newSpeakerForm, setNewSpeakerForm] = useState({
-    speaker: {
-      name: "",
-      description: "",
-      job: "",
-      banner: "",
-      avatar: "",
+  const [notification, setNotification] = useState(null);
+  //FORM DE NOTIFICATION
+  const [newNotificationForm, setnewNotificationForm] = useState({
+    notification: {
+      title: "",
+      body: "",
     },
     errors: {},
   });
@@ -40,13 +36,13 @@ const RegisterNotification = (props) => {
     const value = input.type === "checkbox" ? input.checked : input.value;
     const result = FormValidator.validate(input);
 
-    setNewSpeakerForm({
-      speaker: {
-        ...newSpeakerForm.speaker,
+    setnewNotificationForm({
+      notification: {
+        ...newNotificationForm.notification,
         [input.name]: value,
       },
       errors: {
-        ...newSpeakerForm.errors,
+        ...newNotificationForm.errors,
         [input.name]: result,
       },
     });
@@ -55,25 +51,15 @@ const RegisterNotification = (props) => {
   //VERIFICA SI HAY ERRORES
   const hasErrors = (inputName, method) => {
     return (
-      newSpeakerForm &&
-      newSpeakerForm.errors &&
-      newSpeakerForm.errors[inputName] &&
-      newSpeakerForm.errors[inputName][method]
+      newNotificationForm &&
+      newNotificationForm.errors &&
+      newNotificationForm.errors[inputName] &&
+      newNotificationForm.errors[inputName][method]
     );
   };
 
-  //METODO PARA OBTENER IMAGENES DEL COMPONENTE ImageCropper
-  const getImage = (image, type) => {
-    setNewSpeakerForm({
-      speaker: {
-        ...newSpeakerForm.speaker,
-        [type]: image,
-      },
-    });
-  };
-
   //ENVIAR REQUEST
-  const submitNewSpeaker = async (e) => {
+  const submitNewNotification = async (e) => {
     e.preventDefault();
 
     const form = e.target;
@@ -82,26 +68,23 @@ const RegisterNotification = (props) => {
     );
     const { errors } = FormValidator.bulkValidate(inputs);
 
-    setNewSpeakerForm({
-      speaker: {
-        ...newSpeakerForm.speaker,
+    setnewNotificationForm({
+      notification: {
+        ...newNotificationForm.notification,
       },
       errors,
     });
 
     //Validate if is valid make api request
     if(!editMode){
-      await newSpeaker(newSpeakerForm)
+      await newNotification(newNotificationForm)
       .then(async (response) => {
         //USUARIO CREADO CORRECTAMENTE
-        notify("Speaker created.");
-        setNewSpeakerForm({
-          speaker: {
-            name: "",
-            description: "",
-            job: "",
-            banner: "",
-            avatar: ""
+        notify("Notification created.");
+        setnewNotificationForm({
+          notification: {
+            title: "",
+            body: "",
           },
           errors: {},
         });
@@ -117,15 +100,12 @@ const RegisterNotification = (props) => {
     }else{
       try {
         //USUARIO MODIFICADO CORRECTAMENTE
-        await updateSpeaker({speaker: newSpeakerForm.speaker}, user.id);
-        notify("Modified speaker.");
-        setNewSpeakerForm({
-          speaker: {
-            name: "",
-            description: "",
-            job: "",
-            banner: "",
-            avatar: ""
+        await updateNotification({notification: newNotificationForm.notification}, notification.id);
+        notify("Notification updated.");
+        setnewNotificationForm({
+          notification: {
+            title: "",
+            body: "",
           },
           errors: {},
         });
@@ -151,12 +131,12 @@ const RegisterNotification = (props) => {
   //SE EJECUTA AL INICIAR
   useEffect(() => {
 
-    async function getSpeakerAPI() {
-      await getSpeaker(props.match.params.id).then( (result) => {
+    async function getNotificationAPI() {
+      await getNotification(props.match.params.id).then( (result) => {
         console.log(result.data);
-        setUser(result.data);
-        setNewSpeakerForm({
-          speaker: {...result.data}
+        setNotification(result.data);
+        setnewNotificationForm({
+          notification: {...result.data}
         });
       }).catch( (error) => {
         Swal({
@@ -169,118 +149,74 @@ const RegisterNotification = (props) => {
 
     if(!props.match.params.id){
       const user = JSON.parse(sessionStorage.getItem("USERSESSION"));
-      setUser(user);
+      setNotification(user);
     }else{
       setEditMode(true);
-      getSpeakerAPI();
+      getNotificationAPI();
     }
   }, []);
 
   return (
     <ContentWrapper>
       <div className="content-heading">
-        <div>{!editMode ? "Speaker registration" : "Update information"}</div>
+        <div>{!editMode ? "Notification registration" : "Update information"}</div>
       </div>
       <Row>
         <Col xs={12} className="text-center">
           <Card className="p-3 shadow">
-            <CardHeader className="text-left mb-4">{!editMode ? "New Speaker" : "Modify Speaker"}</CardHeader>
+            <CardHeader className="text-left mb-4">{!editMode ? "New Notification" : "Modify Notification"}</CardHeader>
             <CardBody>
               <form
                 className="form-horizontal"
-                name="speaker"
-                onSubmit={submitNewSpeaker}
+                name="notification"
+                onSubmit={submitNewNotification}
               >
                 <Row>
                   <Col xl={6}>
-
                     <FormGroup row>
-                      <label className="col-xl-4 col-form-label">Name</label>
+                      <label className="col-xl-4 col-form-label">Title</label>
                       <div className="col-xl-8">
                         <Input
                           onChange={validateOnChange}
                           type="text"
-                          name="name"
-                          invalid={hasErrors("speaker", "name", "required")}
+                          name="title"
+                          invalid={hasErrors("notification", "title", "required")}
                           data-validate='["required"]'
-                          value={newSpeakerForm.speaker.name}
+                          value={newNotificationForm.notification.title}
                         />
-                        {hasErrors("speaker", "name", "required") && (
+                        {hasErrors("notification", "title", "required") && (
                           <span className="invalid-feedback">
                            Required field
                           </span>
                         )}
                       </div>
-                    </FormGroup>
-
-                    <FormGroup row>
-                      <label className="col-xl-4 col-form-label">Job</label>
-                      <div className="col-xl-8">
-                        <Input
-                          onChange={validateOnChange}
-                          type="text"
-                          name="job"
-                          invalid={hasErrors("speaker", "job", "required")}
-                          data-validate='["required"]'
-                          value={newSpeakerForm.speaker.job}
-                        />
-                        {hasErrors("speaker", "job", "required") && (
-                          <span className="invalid-feedback">
-                            Required field
-                          </span>
-                        )}
-                      </div>
-                    </FormGroup>
-                    
+                    </FormGroup>      
                     <FormGroup row>
                       <label className="col-xl-4 col-form-label">
-                        Description
+                        Body
                       </label>
                       <div className="col-xl-8">
                         <Input
                           onChange={validateOnChange}
                           type="textarea"
-                          name="description"
+                          name="body"
                           invalid={hasErrors(
-                            "speaker",
-                            "description",
+                            "notification",
+                            "body",
                             "required"
                           )}
                           data-validate='["required"]'
-                          value={newSpeakerForm.speaker.description}
+                          value={newNotificationForm.notification.body}
                         />
-                        {hasErrors("speaker", "description", "required") && (
+                        {hasErrors("notification", "body", "required") && (
                           <span className="invalid-feedback">
                             Required field
                           </span>
                         )}
                       </div>
                     </FormGroup>
-
-                  </Col>
-                  <Col xl={6}>
-                    <Row>
-                      <Col xl={6}>
-                      <ImageCropper
-                      imageGetter={getImage}
-                      id="av"
-                      type="avatar"
-                      user={user}
-                    />
-                      </Col>
-                      <Col xl={6}>
-                      <ImageCropper
-                      imageGetter={getImage}
-                      id="ban"
-                      type="banner"
-                      user={user}
-                    />
-                      </Col>
-                    </Row>
                   </Col>
                 </Row>
-                
-                
                 <hr />
                 <Row>
                   <Col xl={12} className="d-flex flex-row justify-content-end">
@@ -299,4 +235,4 @@ const RegisterNotification = (props) => {
   );
 };
 
-export default withNamespaces("translations")(RegisterSpeaker);
+export default withNamespaces("translations")(RegisterNotification);

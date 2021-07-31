@@ -30,11 +30,11 @@ const Notifications = (props) => {
         </div>
     )
 
-    const editNotifications = ({value}) => {
+    const editNotification = ({value}) => {
         props.history.push(`/notifications/${value}`)
     }
 
-    const deleteNotificationsFunction = async ({value}) => {
+    const deleteNotificationFunction = async ({value}) => {
         Swal({
             title: "Do you want to delete Notification?",
             text: "Once deleted, the information cannot be recovered.",

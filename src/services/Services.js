@@ -228,10 +228,10 @@ export const deleteNotification = async (id) => {
     return await requestFunction('delete', `${ENDPOINT}notifications/${id}`);
 }
 
-export const getNotifications = async (id) => {
+export const getNotification = async (id) => {
     return await requestFunction('get', `${ENDPOINT}notifications/${id}`);
 }
 
-export const updateNotifications = async  (notification,id) => {
+export const updateNotification = async  (notification,id) => {
     return await requestFunction('put', `${ENDPOINT}notifications/${id}`, notification)
 }
