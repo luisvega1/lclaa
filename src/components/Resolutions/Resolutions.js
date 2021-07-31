@@ -104,7 +104,7 @@ const Resolutions = (props) => {
   return (
     <ContentWrapper>
       <div className="content-heading">
-        <div>Notifications</div>
+        <div>Resolutions</div>
       </div>
       <div className="text-right mb-3">
         <Button
