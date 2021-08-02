@@ -36,6 +36,9 @@ const ClientForm = (props) => {
       phone_num: "",
       city: "",
       state: "",
+      registration_type: "",
+      lclaa_chapter: "",
+      zip: ""
     },
     errors: {},
   });
@@ -111,6 +114,9 @@ const ClientForm = (props) => {
               phone_num: "",
               city: "",
               state: "",
+              registration_type: "",
+              lclaa_chapter: "",
+              zip: ""
             },
             errors: {},
           });
@@ -138,6 +144,9 @@ const ClientForm = (props) => {
               phone_num: "",
               city: "",
               state: "",
+              registration_type: "",
+              lclaa_chapter: "",
+              zip: ""
             },
             errors: {},
           });
@@ -332,6 +341,66 @@ const ClientForm = (props) => {
                           value={newClientForm.client.city}
                         />
                         {hasErrors("client", "city", "required") && (
+                          <span className="invalid-feedback">
+                            Required field
+                          </span>
+                        )}
+                      </div>
+                    </FormGroup>
+                    <FormGroup row>
+                      <label className="col-xl-4 col-form-label">Zip Code</label>
+                      <div className="col-xl-8">
+                        <Input
+                          onChange={validateOnChange}
+                          type="text"
+                          name="zip"
+                          invalid={
+                            hasErrors("client", "zip", "required")
+                          }
+                          data-validate='["required"]'
+                          value={newClientForm.client.zip}
+                        />
+                        {hasErrors("client", "zip", "required") && (
+                          <span className="invalid-feedback">
+                            Required field
+                          </span>
+                        )}
+                      </div>
+                    </FormGroup>
+                    <FormGroup row>
+                      <label className="col-xl-4 col-form-label">Registration type</label>
+                      <div className="col-xl-8">
+                        <Input
+                          onChange={validateOnChange}
+                          type="text"
+                          name="city"
+                          invalid={
+                            hasErrors("client", "registration_type", "required")
+                          }
+                          data-validate='["required"]'
+                          value={newClientForm.client.registration_type}
+                        />
+                        {hasErrors("client", "registration_type", "required") && (
+                          <span className="invalid-feedback">
+                            Required field
+                          </span>
+                        )}
+                      </div>
+                    </FormGroup>
+                    <FormGroup row>
+                      <label className="col-xl-4 col-form-label">LCLAA Chapter</label>
+                      <div className="col-xl-8">
+                        <Input
+                          onChange={validateOnChange}
+                          type="text"
+                          name="city"
+                          invalid={
+                            hasErrors("client", "lclaa_chapter", "required")
+                          }
+                          data-validate='["required"]'
+                          value={newClientForm.client.lclaa_chapter}
+                        />
+                        {hasErrors("client", "lclaa_chapter", "required") && (
                           <span className="invalid-feedback">
                             Required field
                           </span>

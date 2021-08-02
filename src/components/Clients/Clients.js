@@ -72,6 +72,7 @@ const Clients = (props) => {
         {key: 'phone_num', name: 'Phone number'},
         {key: 'state', name: 'State'},
         {key: 'city', name: 'City'},
+        {key: 'registration_type', name: 'Registration'},
         {key: 'id', name: 'Edit', formatter: editButton, width: 80},
         {key: 'id', name: 'Delete', formatter: deleteButton, width: 80}
     ];
