@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ContentWrapper from "../Layout/ContentWrapper";
 import { getResolution } from "../../services/Services";
 import Datatable from "../Common/Datatable";
-import FlotChart from "../Common/Flot";
+import MorrisChart from "../Common/Morris";
 import { Col, Card, CardHeader, CardBody, CardTitle, Row } from "reactstrap";
 import $ from "jquery";
 
@@ -36,27 +36,21 @@ class Votes extends Component {
       let data = [
         {
           label: "Positive votes",
-          data: response.data.yes,
-          color: "#39C558",
+          value: response.data.yes
         },
         {
           label: "Negative votes",
-          data: response.data.no,
-          color: "#ff3e43",
+          value: response.data.no
         },
         {
           label: "Null votes",
-          data: response.data.null,
-          color: "#FFBE41",
+          value: response.data.null
         },
       ];
       let options = {
-        series: {
-          pie: {
-            show: true,
-            innerRadius: 0.5, // This makes the donut shape
-          },
-        },
+        element: 'morris-donut',
+        colors: ['#f05050', '#fad732', '#ff902b'],
+        resize: true
       };
       this.setState({
         resolution: response.data,
@@ -107,7 +101,7 @@ class Votes extends Component {
                           <td>{vote.user.name}</td>
                           <td>{vote.user.lastname}</td>
                           <td>{vote.user.email}</td>
-                          <td>{vote.answer ? "Yes" : "No"}</td>
+                          <td>{vote.answer === true ? 'Yes' : vote.answer === false ? 'No' : 'Null'}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -117,12 +111,7 @@ class Votes extends Component {
             </Card>
           </Col>
           <Col xl={4}>
-            <FlotChart
-              options={this.state.chartDonut.options}
-              data={this.state.chartDonut.data}
-              className="flot-chart"
-              height="250px"
-            />
+          <MorrisChart type={'Donut'} id="morris-donut" data={this.state.chartDonut.data} options={this.state.chartDonut.options}/>
           </Col>
         </Row>
       </ContentWrapper>
