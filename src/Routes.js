@@ -40,6 +40,7 @@ const Notifications = lazy(() => import('./components/Notifications/Notification
 const RegisterNotification = lazy(() => import('./components/Notifications/RegisterNotifications'));
 const Resolutions = lazy(() => import('./components/Resolutions/Resolutions'));
 const ResolutionsForm = lazy(() => import('./components/Resolutions/ResolutionsForm'));
+const Votes = lazy(() => import('./components/Resolutions/Votes'));
 
 //Lista de paginas que van fuera del layout wrapper
 const listofPages = [
@@ -117,6 +118,7 @@ const Routes = ({ location }) => {
                                 <ProtectedRoute exact path="/resolutions" component={waitFor(Resolutions)}/>
                                 <ProtectedRoute exact path="/resolutions/new" component={waitFor(ResolutionsForm)}/>
                                 <ProtectedRoute exact path="/resolutions/:id" component={waitFor(ResolutionsForm)}/>
+                                <ProtectedRoute exact path="/resolutions/votes/:id" component={waitFor(Votes)}/>
                                 <ProtectedRoute path="*" component={() => <Redirect to={{pathname: "/"}}/>} />
                             </Switch>
                         </Suspense>

@@ -35,6 +35,18 @@ const Resolutions = (props) => {
     </div>
   );
 
+  const votesButton = (props) => (
+    <div className="text-center py-2">
+      <Button color="info" onClick={() => resolutionVotes(props)}>
+        <i class="fas fa-vote-yea"></i>
+      </Button>
+    </div>
+  );
+
+  const resolutionVotes = ({value}) => {
+    props.history.push(`/resolutions/votes/${value}`)
+  }
+
   const editResolution = ({ value }) => {
     props.history.push(`/resolutions/${value}`);
   };
@@ -87,6 +99,7 @@ const Resolutions = (props) => {
     { key: "body", name: "Body" },
     { key: "active", name: "Active", formatter: activeFormatter },
     { key: "event", name: "Event", formatter: eventFormatter },
+    { key: "id", name: "Votes", formatter: votesButton, width: 80 },
     { key: "id", name: "Edit", formatter: editButton, width: 80 },
     { key: "id", name: "Delete", formatter: deleteButton, width: 80 },
   ];
