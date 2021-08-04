@@ -76,7 +76,7 @@ class Votes extends Component {
     return !this.state.isLoading ? (
       <ContentWrapper>
         <div className="content-heading">
-                <tag>{resolution.name}</tag>
+                <tag>resolution.name</tag>
             </div>
             <div className="text-right mb-3">
                 
@@ -87,10 +87,10 @@ class Votes extends Component {
                     <Col xl={ 3 } md={ 6 }>
                         { /* START card */ }
                         <div className="card flex-row align-items-center align-items-stretch border-0">
-                            <div className="col-4 d-flex align-items-center bg-primary-dark justify-content-center rounded-left">
+                            <div className="col-4 d-flex align-items-center bg-green-dark justify-content-center rounded-left">
                                 <em className="icon-bubbles fa-3x"></em>
                             </div>
-                            <div className="col-8 py-3 bg-primary rounded-right">
+                            <div className="col-8 py-3 bg-green rounded-right">
                                 <div className="h2 mt-0">{data.yes}</div>
                                 <div className="text-uppercase">YES VOTES</div>
                             </div>
@@ -125,10 +125,10 @@ class Votes extends Component {
                     <Col xl={ 3 } lg={ 6 } md={ 12 }>
                         { /* START date card */ }
                         <div className="card flex-row align-items-center align-items-stretch border-0">
-                            <div className="col-4 d-flex align-items-center bg-green-dark justify-content-center rounded-left">
+                            <div className="col-4 d-flex align-items-center bg-primary-dark justify-content-center rounded-left">
                                 <em className="icon-bubbles fa-3x"></em>
                             </div>
-                            <div className="col-8 py-3 bg-green rounded-right">
+                            <div className="col-8 py-3 bg-primary rounded-right">
                                 <div className="h2 mt-0">{data.votes_count}</div>
                                 <div className="text-uppercase">TOTAL VOTES</div>
                             </div>
