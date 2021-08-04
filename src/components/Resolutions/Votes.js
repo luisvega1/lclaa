@@ -36,21 +36,21 @@ class Votes extends Component {
       let data = [
         {
           label: "Positive votes",
-          value: response.data.yes
+          value: response.data.yes,
         },
         {
           label: "Negative votes",
-          value: response.data.no
+          value: response.data.no,
         },
         {
           label: "Abstain votes",
-          value: response.data.null
+          value: response.data.null,
         },
       ];
       let options = {
-        element: 'morris-donut',
-        colors: ['#f05050', '#fad732', '#ff902b'],
-        resize: true
+        element: "morris-donut",
+        colors: ["#f05050", "#fad732", "#ff902b"],
+        resize: true,
       };
       this.setState({
         resolution: response.data,
@@ -76,68 +76,64 @@ class Votes extends Component {
     return !this.state.isLoading ? (
       <ContentWrapper>
         <div className="content-heading">
-                <tag>resolution.name</tag>
-            </div>
-            <div className="text-right mb-3">
-                
-            </div>
+          <div>{this.state.resolution.title}</div>
+        </div>
+        <div className="text-right mb-3"></div>
 
-            { /* START cards box */ }
-                <Row>
-                    <Col xl={ 3 } md={ 6 }>
-                        { /* START card */ }
-                        <div className="card flex-row align-items-center align-items-stretch border-0">
-                            <div className="col-4 d-flex align-items-center bg-green-dark justify-content-center rounded-left">
-                                <em className="icon-bubbles fa-3x"></em>
-                            </div>
-                            <div className="col-8 py-3 bg-green rounded-right">
-                                <div className="h2 mt-0">{data.yes}</div>
-                                <div className="text-uppercase">YES VOTES</div>
-                            </div>
-                        </div>
-                    </Col>
-                    <Col xl={ 3 } md={ 6 }>
-                        { /* START card */ }
-                        <div className="card flex-row align-items-center align-items-stretch border-0">
-                            <div className="col-4 d-flex align-items-center bg-danger-dark justify-content-center rounded-left">
-                                <em className="icon-bubbles fa-3x"></em>
-                            </div>
-                            <div className="col-8 py-3 bg-danger rounded-right">
-                                <div className="h2 mt-0">{data.no}
-                                    
-                                </div>
-                                <div className="text-uppercase">NO VOTES</div>
-                            </div>
-                        </div>
-                    </Col>
-                    <Col xl={ 3 } lg={ 6 } md={ 12 }>
-                        { /* START card */ }
-                        <div className="card flex-row align-items-center align-items-stretch border-0">
-                            <div className="col-4 d-flex align-items-center bg-warning-dark justify-content-center rounded-left">
-                                <em className="icon-bubbles fa-3x"></em>
-                            </div>
-                            <div className="col-8 py-3 bg-warning rounded-right">
-                                <div className="h2 mt-0">{data.null}</div>
-                                <div className="text-uppercase">ABSTAIN VOTES</div>
-                            </div>
-                        </div>
-                    </Col>
-                    <Col xl={ 3 } lg={ 6 } md={ 12 }>
-                        { /* START date card */ }
-                        <div className="card flex-row align-items-center align-items-stretch border-0">
-                            <div className="col-4 d-flex align-items-center bg-primary-dark justify-content-center rounded-left">
-                                <em className="icon-bubbles fa-3x"></em>
-                            </div>
-                            <div className="col-8 py-3 bg-primary rounded-right">
-                                <div className="h2 mt-0">{data.votes_count}</div>
-                                <div className="text-uppercase">TOTAL VOTES</div>
-                            </div>
-                        </div>
-                        { /* END date card */ }
-                    </Col>
-                </Row>
-                { /* END cards box */ }
-        
+        {/* START cards box */}
+        <Row>
+          <Col xl={3} md={6}>
+            {/* START card */}
+            <div className="card flex-row align-items-center align-items-stretch border-0">
+              <div className="col-4 d-flex align-items-center bg-green-dark justify-content-center rounded-left">
+                <em className="icon-bubbles fa-3x"></em>
+              </div>
+              <div className="col-8 py-3 bg-green rounded-right">
+                <div className="h2 mt-0">{this.state.resolution.yes}</div>
+                <div className="text-uppercase">YES VOTES</div>
+              </div>
+            </div>
+          </Col>
+          <Col xl={3} md={6}>
+            {/* START card */}
+            <div className="card flex-row align-items-center align-items-stretch border-0">
+              <div className="col-4 d-flex align-items-center bg-danger-dark justify-content-center rounded-left">
+                <em className="icon-bubbles fa-3x"></em>
+              </div>
+              <div className="col-8 py-3 bg-danger rounded-right">
+                <div className="h2 mt-0">{this.state.resolution.no}</div>
+                <div className="text-uppercase">NO VOTES</div>
+              </div>
+            </div>
+          </Col>
+          <Col xl={3} lg={6} md={12}>
+            {/* START card */}
+            <div className="card flex-row align-items-center align-items-stretch border-0">
+              <div className="col-4 d-flex align-items-center bg-warning-dark justify-content-center rounded-left">
+                <em className="icon-bubbles fa-3x"></em>
+              </div>
+              <div className="col-8 py-3 bg-warning rounded-right">
+                <div className="h2 mt-0">{this.state.resolution.null}</div>
+                <div className="text-uppercase">ABSTAIN VOTES</div>
+              </div>
+            </div>
+          </Col>
+          <Col xl={3} lg={6} md={12}>
+            {/* START date card */}
+            <div className="card flex-row align-items-center align-items-stretch border-0">
+              <div className="col-4 d-flex align-items-center bg-primary-dark justify-content-center rounded-left">
+                <em className="icon-bubbles fa-3x"></em>
+              </div>
+              <div className="col-8 py-3 bg-primary rounded-right">
+                <div className="h2 mt-0">{this.state.resolution.votes_count}</div>
+                <div className="text-uppercase">TOTAL VOTES</div>
+              </div>
+            </div>
+            {/* END date card */}
+          </Col>
+        </Row>
+        {/* END cards box */}
+
         <Row>
           <Col xl={8}>
             <Card>
@@ -161,7 +157,15 @@ class Votes extends Component {
                           <td>{vote.user.name}</td>
                           <td>{vote.user.lastname}</td>
                           <td>{vote.user.email}</td>
-                          <td>{vote.answer === true ? 'Yes' : vote.answer === false ? 'No' : vote.answer === null ? 'Abstain' : 'Null' }</td>
+                          <td>
+                            {vote.answer === true
+                              ? "Yes"
+                              : vote.answer === false
+                              ? "No"
+                              : vote.answer === null
+                              ? "Abstain"
+                              : "Null"}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -171,7 +175,12 @@ class Votes extends Component {
             </Card>
           </Col>
           <Col xl={4}>
-          <MorrisChart type={'Donut'} id="morris-donut" data={this.state.chartDonut.data} options={this.state.chartDonut.options}/>
+            <MorrisChart
+              type={"Donut"}
+              id="morris-donut"
+              data={this.state.chartDonut.data}
+              options={this.state.chartDonut.options}
+            />
           </Col>
         </Row>
       </ContentWrapper>
