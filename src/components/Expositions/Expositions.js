@@ -51,6 +51,14 @@ const Expositions = (props) => {
         </div>
     )
 
+    const AssistanceButton = ({value}) => (
+        <div className="text-center py-2">
+          <Button color="info" onClick={() => props.history.push(`/expositions/assistancelist/${value}`)}>
+            <i class="far fa-list-alt"></i>
+          </Button>
+        </div>
+      );
+
     const editExposition = ({value}) => {
         props.history.push(`/expositions/${value}`)
     }
@@ -89,6 +97,7 @@ const Expositions = (props) => {
         {key: 'start_time', name: 'Start time', width: 80},
         {key: 'end_time', name: 'End time', width: 80},
         {key: 'speakers', name: 'Speakers', formatter: SpeakersFormatter},
+        {key: "id", name: "Assistance List", formatter: AssistanceButton, width: 110},
         {key: 'id', name: 'Edit', formatter: editButton, width: 80},
         {key: 'id', name: 'Delete', formatter: deleteButton, width: 80}
     ];

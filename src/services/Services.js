@@ -256,3 +256,8 @@ export const getResolution = async (id) => {
 export const updateResolution = async  (resolution,id) => {
     return await requestFunction('put', `${ENDPOINT}resolutions/${id}`, resolution)
 }
+
+//ASSISTANCELIST
+export const getAssistanceList = async (exposition_id) => {
+    return await requestFunction('get', `${ENDPOINT}assistance_list/${exposition_id}`);
+}
