@@ -370,9 +370,9 @@ const ClientForm = (props) => {
                     <FormGroup row>
                       <label className="col-xl-4 col-form-label">Registration type</label>
                       <div className="col-xl-8">
-                        <select name="registration_type" class="custom-select custom-select-sm" onChange={validateOnChange} value={newClientForm.client.registration_type}>
-                          <option value="Delegate">Delegate</option>
-                          <option value="Observer">Observer</option>
+                        <select name="rol" class="custom-select custom-select-sm" onChange={validateOnChange} value={newClientForm.client.registration_type}>
+                          <option value="1">Delegate</option>
+                          <option value="3">Observer</option>
                         </select>
                       </div>
                     </FormGroup>
